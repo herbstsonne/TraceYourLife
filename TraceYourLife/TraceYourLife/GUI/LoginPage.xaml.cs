@@ -2,7 +2,7 @@
 using System;
 using TraceYourLife.Domain;
 using TraceYourLife.Domain.Entities;
-using TraceYourLife.Domain.Interfaces;
+using TraceYourLife.Domain.Entities.Interfaces;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 

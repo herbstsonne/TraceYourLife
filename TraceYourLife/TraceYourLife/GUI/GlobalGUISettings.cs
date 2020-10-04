@@ -1,5 +1,4 @@
 ﻿using OxyPlot.Xamarin.Forms;
-using System;
 using System.Collections.Generic;
 using TraceYourLife.Domain.Enums;
 using TraceYourLife.Domain.Manager;
@@ -118,7 +117,7 @@ namespace TraceYourLife.GUI
             };
         }
 
-        public static PlotView CreatePlotModelCycle(TemperaturePerDayManager cycleHandler)
+        public static PlotView CreatePlotModelCycle(TemperaturePerDayChartManager cycleHandler)
         {
             PlotView view = new PlotView();
             view.SetBinding(PlotView.ModelProperty, new Binding("LineChart"));

@@ -1,14 +1,9 @@
-﻿using Rg.Plugins.Popup.Extensions;
-using Rg.Plugins.Popup.Services;
+﻿using Rg.Plugins.Popup.Services;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TraceYourLife.Domain;
+using TraceYourLife.Domain.Entities.Interfaces;
 using TraceYourLife.Domain.Enums;
-using TraceYourLife.Domain.Interfaces;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 

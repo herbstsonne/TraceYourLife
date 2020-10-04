@@ -1,5 +1,5 @@
-﻿using TraceYourLife.Domain.Enums;
-using TraceYourLife.Domain.Interfaces;
+﻿using TraceYourLife.Domain.Entities.Interfaces;
+using TraceYourLife.Domain.Enums;
 
 namespace TraceYourLife.Domain.Entities
 {

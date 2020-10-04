@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TraceYourLife.Domain.Interfaces;
+using TraceYourLife.Domain.Entities.Interfaces;
 using TraceYourLife.Domain.Manager;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -20,12 +20,12 @@ namespace TraceYourLife.GUI
     public partial class DiagramPage : ContentPage
     {
         private readonly IPerson person;
-        private TemperaturePerDayManager cycleHandler;
+        private TemperaturePerDayChartManager cycleHandler;
 
         public DiagramPage(IPerson person)
         {
             PopupNavigation.Instance.PopAsync();
-            cycleHandler = new TemperaturePerDayManager(person);
+            cycleHandler = new TemperaturePerDayChartManager(person);
             this.person = person;
             SetPageParameters();
         }

@@ -1,6 +1,6 @@
 ﻿using Rg.Plugins.Popup.Pages;
 using System;
-using TraceYourLife.Domain.Interfaces;
+using TraceYourLife.Domain.Entities.Interfaces;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 

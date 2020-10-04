@@ -2,16 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TraceYourLife.Domain;
 using TraceYourLife.Domain.Entities;
-using TraceYourLife.Domain.Interfaces;
+using TraceYourLife.Domain.Entities.Interfaces;
 
 namespace TraceYourLife.Database
 {
-    public class TemperatureDiagramRepository
+    public class TemperaturePerDayChartRepository
     {
         private SQLiteConnection connection;
-        public TemperatureDiagramRepository(SQLiteConnection connection)
+        public TemperaturePerDayChartRepository(SQLiteConnection connection)
         {
             this.connection = connection;
         }

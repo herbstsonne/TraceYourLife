@@ -1,7 +1,7 @@
 ﻿using Rg.Plugins.Popup.Pages;
 using System;
 using TraceYourLife.Domain;
-using TraceYourLife.Domain.Interfaces;
+using TraceYourLife.Domain.Entities.Interfaces;
 using TraceYourLife.Domain.Manager;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -13,7 +13,7 @@ namespace TraceYourLife.GUI
     {
         private readonly IPerson person;
         private HandleBusinessSettings businessSettings;
-        private TemperaturePerDayManager chartHandler;
+        private TemperaturePerDayChartManager chartHandler;
         private Label labelHeader;
         private DatePicker editorDate;
         private Picker pickerTemp;
@@ -30,7 +30,7 @@ namespace TraceYourLife.GUI
         {
             InitializeComponent();
             businessSettings = new HandleBusinessSettings(person);
-            chartHandler = new TemperaturePerDayManager(person);
+            chartHandler = new TemperaturePerDayChartManager(person);
             BackgroundInputTransparent = true;
             HasKeyboardOffset = false;
             CloseWhenBackgroundIsClicked = true;
@@ -66,7 +66,7 @@ namespace TraceYourLife.GUI
         {
             if (pickerTemp.SelectedItem == null)
                 return;
-            var chartHandler = new TemperaturePerDayManager(person);
+            var chartHandler = new TemperaturePerDayChartManager(person);
 
             if (chartHandler.DoesEntryOfDateExists(editorDate.Date))
             {

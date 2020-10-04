@@ -6,12 +6,13 @@ using OxyPlot.Axes;
 using OxyPlot.Series;
 using TraceYourLife.Database;
 using TraceYourLife.Domain.Entities;
-using TraceYourLife.Domain.Interfaces;
+using TraceYourLife.Domain.Entities.Interfaces;
+using TraceYourLife.Domain.Manager.Interfaces;
 using TraceYourLife.GUI;
 
 namespace TraceYourLife.Domain.Manager
 {
-    public class TemperaturePerDayManager
+    public class TemperaturePerDayChartManager : ITemperaturePerDayChartDataLoader, ITemperaturePerDayChartInitializer
     {
         private IPerson person;
         private LineSeries lsCycle;
@@ -19,15 +20,15 @@ namespace TraceYourLife.Domain.Manager
 
         public PlotModel LineChart { get; set; }
 
-        public TemperaturePerDayManager(IPerson person)
+        public TemperaturePerDayChartManager(IPerson person)
         {
             this.person = person;
         }
 
-        #region Database
+        #region Load data
         public List<TemperaturePerDay> RetrieveCycleOf()
         {
-            var dbCycle = new TemperatureDiagramRepository(AppGlobal.DbConn);
+            var dbCycle = new TemperaturePerDayChartRepository(AppGlobal.DbConn);
             return dbCycle.Load28DaysCycle(person);
         }
 
@@ -40,7 +41,7 @@ namespace TraceYourLife.Domain.Manager
                 PersonId = person.Id
             };
 
-            var dbCycle = new TemperatureDiagramRepository(AppGlobal.DbConn);
+            var dbCycle = new TemperaturePerDayChartRepository(AppGlobal.DbConn);
             return dbCycle.SaveNewData(cycleEntry);
         }
 
@@ -53,15 +54,21 @@ namespace TraceYourLife.Domain.Manager
                 PersonId = person.Id
             };
 
-            var dbCycle = new TemperatureDiagramRepository(AppGlobal.DbConn);
+            var dbCycle = new TemperaturePerDayChartRepository(AppGlobal.DbConn);
             dbCycle.UpdateEntry(cycleEntry);
         }
 
         public bool DoesEntryOfDateExists(DateTime date)
         {
-            var dbCycle = new TemperatureDiagramRepository(AppGlobal.DbConn);
+            var dbCycle = new TemperaturePerDayChartRepository(AppGlobal.DbConn);
             var num = dbCycle.CountEntriesOfDate(person, date);
             return num > 0;
+        }
+
+        public decimal? SearchValueOfYesterday()
+        {
+            var dbCycle = new TemperaturePerDayChartRepository(AppGlobal.DbConn);
+            return dbCycle.LoadValueOYesterday(person);
         }
         #endregion
         #region Chart
@@ -90,12 +97,6 @@ namespace TraceYourLife.Domain.Manager
                 LegendOrientation = LegendOrientation.Horizontal,
                 LegendBorderThickness = 0
             };
-        }
-
-        public decimal? SearchValueOfYesterday()
-        {
-            var dbCycle = new TemperatureDiagramRepository(AppGlobal.DbConn);
-            return dbCycle.LoadValueOYesterday(person);
         }
 
         private void DefineAxes()

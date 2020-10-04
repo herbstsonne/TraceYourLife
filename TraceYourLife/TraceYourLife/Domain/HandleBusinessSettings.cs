@@ -1,6 +1,6 @@
 ﻿using System;
+using TraceYourLife.Domain.Entities.Interfaces;
 using TraceYourLife.Domain.Enums;
-using TraceYourLife.Domain.Interfaces;
 
 namespace TraceYourLife.Domain
 {

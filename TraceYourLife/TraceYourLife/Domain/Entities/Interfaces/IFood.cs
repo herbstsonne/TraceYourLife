@@ -1,6 +1,6 @@
 ﻿using TraceYourLife.Domain.Enums;
 
-namespace TraceYourLife.Domain.Interfaces
+namespace TraceYourLife.Domain.Entities.Interfaces
 {
     public interface IFood
     {

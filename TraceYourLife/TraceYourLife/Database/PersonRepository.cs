@@ -2,7 +2,7 @@
 using SQLite;
 using TraceYourLife.Domain;
 using TraceYourLife.Domain.Entities;
-using TraceYourLife.Domain.Interfaces;
+using TraceYourLife.Domain.Entities.Interfaces;
 
 namespace TraceYourLife.Database
 {

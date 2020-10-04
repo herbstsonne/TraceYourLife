@@ -3,7 +3,7 @@ using Rg.Plugins.Popup.Extensions;
 using Rg.Plugins.Popup.Services;
 using System;
 using System.Linq;
-using TraceYourLife.Domain.Interfaces;
+using TraceYourLife.Domain.Entities.Interfaces;
 using TraceYourLife.Domain.Manager;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -14,13 +14,12 @@ namespace TraceYourLife.GUI
     public partial class CycleChartPage : ContentPage
     {
         private readonly IPerson person;
-        private TemperaturePerDayManager cycleHandler;
 
         public CycleChartPage(IPerson person)
         {
             if (PopupNavigation.Instance.PopupStack.Any())
                 PopupNavigation.Instance.PopAsync();
-            cycleHandler = new TemperaturePerDayManager(person);
+            
             this.person = person;
             SetPageParameters();
         }
@@ -41,6 +40,7 @@ namespace TraceYourLife.GUI
             };
             this.Content = absLayout;
 
+            var cycleHandler = new TemperaturePerDayChartManager(person);
             cycleHandler.CreateLineChart("Zyklus");
             PlotView view = GlobalGUISettings.CreatePlotModelCycle(cycleHandler);
 
