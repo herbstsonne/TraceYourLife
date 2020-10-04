@@ -21,7 +21,11 @@ namespace TraceYourLife.GUI
         {
             this.person = person;
             businessSettings = new HandleBusinessSettings(person);
+            SetPageParameters();
+        }
 
+        private void SetPageParameters()
+        {
             InitializeComponent();
             BackgroundInputTransparent = true;
             HasKeyboardOffset = false;
@@ -67,7 +71,9 @@ namespace TraceYourLife.GUI
             if (person != null)
             {
                 if (!person.Password.Equals(entryPassword.Text))
+                {
                     labelInformSuccessful.Text = "Name in der Datenbank schon vorhanden. \n Anlegen nicht zweimal möglich ;)";
+                }
                 else
                 {
                     ShowCycleChart();
@@ -92,7 +98,6 @@ namespace TraceYourLife.GUI
                 return false;
             }
             return true;
-
         }
     }
 }

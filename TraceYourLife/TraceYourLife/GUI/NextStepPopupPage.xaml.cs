@@ -1,9 +1,5 @@
 ﻿using Rg.Plugins.Popup.Pages;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TraceYourLife.Domain.Interfaces;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -14,9 +10,15 @@ namespace TraceYourLife.GUI
     public partial class NextStepPopupPage : PopupPage
     {
         private IPerson person;
+
         public NextStepPopupPage(IPerson person, string header)
         {
             this.person = person;
+            SetPageParameters(header);
+        }
+
+        private void SetPageParameters(string header)
+        {
             InitializeComponent();
             BackgroundInputTransparent = true;
             HasKeyboardOffset = false;

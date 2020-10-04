@@ -1,13 +1,8 @@
-﻿using OxyPlot;
-using OxyPlot.Xamarin.Forms;
+﻿using OxyPlot.Xamarin.Forms;
 using Rg.Plugins.Popup.Extensions;
-using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TraceYourLife.Domain.Interfaces;
 using TraceYourLife.Domain.Manager;
 using Xamarin.Forms;
@@ -26,9 +21,13 @@ namespace TraceYourLife.GUI
             if (PopupNavigation.Instance.PopupStack.Any())
                 PopupNavigation.Instance.PopAsync();
             cycleHandler = new TemperaturePerDayManager(person);
-            InitializeComponent();
             this.person = person;
+            SetPageParameters();
+        }
 
+        private void SetPageParameters()
+        {
+            InitializeComponent();
             var bgImage = new Image()
             {
                 Source = Device.RuntimePlatform == Device.Android ? ImageSource.FromFile("meer.jpg") : ImageSource.FromFile("meer.jpg")

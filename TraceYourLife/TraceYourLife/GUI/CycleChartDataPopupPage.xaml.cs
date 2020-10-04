@@ -22,8 +22,13 @@ namespace TraceYourLife.GUI
 
         public CycleChartDataPopupPage(IPerson person, string header)
         {
-            InitializeComponent();
             this.person = person;
+            SetPageParameters(header);
+        }
+
+        private void SetPageParameters(string header)
+        {
+            InitializeComponent();
             businessSettings = new HandleBusinessSettings(person);
             chartHandler = new TemperaturePerDayManager(person);
             BackgroundInputTransparent = true;

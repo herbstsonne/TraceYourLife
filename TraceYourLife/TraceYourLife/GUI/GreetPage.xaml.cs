@@ -19,9 +19,14 @@ namespace TraceYourLife.GUI
         public GreetPage(IPerson person = null)
         {
             this.person = person;
-            InitializeComponent();
+            SetPageParameters();
+        }
 
-            var bgImage = new Image() {
+        private void SetPageParameters()
+        {
+            InitializeComponent();
+            var bgImage = new Image()
+            {
                 Source = Device.RuntimePlatform == Device.Android ? ImageSource.FromFile("miri1.jpg") : ImageSource.FromFile("miri1.jpg")
             };
             var layout = new StackLayout { Padding = new Thickness(5, 10) };

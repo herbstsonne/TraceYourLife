@@ -26,9 +26,13 @@ namespace TraceYourLife.GUI
         {
             PopupNavigation.Instance.PopAsync();
             cycleHandler = new TemperaturePerDayManager(person);
-            InitializeComponent();
             this.person = person;
+            SetPageParameters();
+        }
 
+        private void SetPageParameters()
+        {
+            InitializeComponent();
             var layout = new StackLayout { Padding = new Thickness(5, 10) };
             this.Content = layout;
 

@@ -19,6 +19,11 @@ namespace TraceYourLife.GUI
 
         public AccountPage()
         {
+            SetPageParameters();
+        }
+
+        private void SetPageParameters()
+        {
             InitializeComponent();
 
             var layout = new StackLayout { Padding = new Thickness(5, 10) };

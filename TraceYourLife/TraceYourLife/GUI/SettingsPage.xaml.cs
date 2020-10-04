@@ -30,6 +30,12 @@ namespace TraceYourLife.GUI
         {
             if (PopupNavigation.Instance.PopupStack.Any())
                 PopupNavigation.Instance.PopAsync();
+            this.person = person;
+            SetPageParameters();
+        }
+
+        private void SetPageParameters()
+        {
             InitializeComponent();
 
             businessSettings = new HandleBusinessSettings(person);
@@ -75,7 +81,6 @@ namespace TraceYourLife.GUI
             layout.Children.Add(gridStartWeight);
             layout.Children.Add(gridPassword);
             layout.Children.Add(buttonSave);
-            this.person = person;
         }
 
         private void ButtonSave_Clicked(object sender, EventArgs e)
