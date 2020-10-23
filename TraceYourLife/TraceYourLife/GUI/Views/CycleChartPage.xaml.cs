@@ -1,22 +1,32 @@
-﻿using OxyPlot.Xamarin.Forms;
+﻿using System;
+using OxyPlot.Xamarin.Forms;
 using Rg.Plugins.Popup.Extensions;
-using Rg.Plugins.Popup.Services;
-using System;
-using System.Linq;
 using TraceYourLife.Domain.Entities;
 using TraceYourLife.Domain.Entities.Interfaces;
 using TraceYourLife.Domain.Manager;
+using TraceYourLife.GUI.Views.Interfaces;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace TraceYourLife.GUI
+namespace TraceYourLife.GUI.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class CycleChartPage : ContentPage
+    public partial class CycleChartPage : ContentPage, IInitializePage
     {
-        private readonly IPerson person;
+        private IPerson person;
 
         public CycleChartPage()
+        {
+            person = new Person().LoadFirstPerson();
+            if (person == null)
+            {
+                Navigation.PushAsync(new SettingsPage());
+                return;
+            }
+            SetPageParameters();
+        }
+
+        public void ReloadPage()
         {
             person = new Person().LoadFirstPerson();
             SetPageParameters();

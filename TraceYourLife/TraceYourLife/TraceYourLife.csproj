@@ -27,24 +27,30 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="GUI\CycleChartDataPopupPage.xaml">
+    <EmbeddedResource Update="GUI\Views\CycleChartDataPopupPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="GUI\CycleChartPage.xaml">
+    <EmbeddedResource Update="GUI\Views\CycleChartPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="GUI\GreetPage.xaml">
+    <EmbeddedResource Update="GUI\Views\GreetPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="GUI\LoginPage.xaml">
+    <EmbeddedResource Update="GUI\Views\LoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="GUI\SettingsPage.xaml">
+    <EmbeddedResource Update="GUI\Views\SettingsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="GUI\Chart\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="GUI\Views\SuccessfulSavedPopupPage.xaml.cs">
+      <DependentUpon>SuccessfulSavedPopupPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>

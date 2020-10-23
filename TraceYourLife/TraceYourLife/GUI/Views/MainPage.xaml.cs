@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Threading.Tasks;
 using TraceYourLife.GUI.MenuItems;
+using TraceYourLife.GUI.Views.Interfaces;
 using Xamarin.Forms;
 
 namespace TraceYourLife.GUI.Views
@@ -30,9 +31,6 @@ namespace TraceYourLife.GUI.Views
                     case (int)MenuItemType.Greetings:
                         MenuPages.Add(id, new NavigationPage(new GreetPage()));
                         break;
-                    case (int)MenuItemType.Login:
-                        MenuPages.Add(id, new NavigationPage(new LoginPage()));
-                        break;
                     case (int)MenuItemType.Settings:
                         MenuPages.Add(id, new NavigationPage(new SettingsPage()));
                         break;
@@ -46,6 +44,8 @@ namespace TraceYourLife.GUI.Views
 
             if (newPage != null && Detail != newPage)
             {
+                var page = (IInitializePage) newPage.CurrentPage;
+                page?.ReloadPage();
                 Detail = newPage;
 
                 if (Device.RuntimePlatform == Device.Android)

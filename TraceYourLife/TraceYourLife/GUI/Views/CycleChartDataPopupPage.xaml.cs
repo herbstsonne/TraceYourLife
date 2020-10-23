@@ -1,12 +1,12 @@
-﻿using Rg.Plugins.Popup.Pages;
-using System;
+﻿using System;
+using Rg.Plugins.Popup.Pages;
 using TraceYourLife.Domain;
 using TraceYourLife.Domain.Entities.Interfaces;
 using TraceYourLife.Domain.Manager;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace TraceYourLife.GUI
+namespace TraceYourLife.GUI.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CycleChartDataPopupPage : PopupPage

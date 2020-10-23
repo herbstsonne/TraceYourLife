@@ -1,24 +1,14 @@
-﻿using Rg.Plugins.Popup.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TraceYourLife.Domain;
-using TraceYourLife.Domain.Entities;
-using TraceYourLife.Domain.Entities.Interfaces;
+﻿using TraceYourLife.GUI.Views.Interfaces;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace TraceYourLife.GUI
+namespace TraceYourLife.GUI.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class GreetPage : ContentPage
+    public partial class GreetPage : ContentPage, IInitializePage
     {
-        private IPerson person;
         public GreetPage()
         {
-            this.person = person;
             SetPageParameters();
         }
 
@@ -43,32 +33,18 @@ namespace TraceYourLife.GUI
             labelPoem.HorizontalOptions = LayoutOptions.CenterAndExpand;
             labelPoem.VerticalOptions = LayoutOptions.CenterAndExpand;
 
-            Button buttonEnjoy = GlobalGUISettings.CreateButton("Entdecken!");
-            buttonEnjoy.Clicked += ButtonEnjoy_Clicked;
             layout.Children.Add(labelHeader);
             layout.Children.Add(labelPoem);
-            layout.Children.Add(buttonEnjoy);
             layout.Padding = new Thickness(5, 10);
-        }
-
-        private async void ButtonEnjoy_Clicked(object sender, EventArgs e)
-        {
-            ////TODO merken, welche Person zuletzt eingeloggt war
-            //person = new Person().LoadFirstPerson();
-            //if (person != null)
-            //{
-            //    await Navigation.PushPopupAsync(new LoginPage(person));
-            //}
-            //else
-            //{
-            //    var createAccountPage = new AccountPage();
-            //    await Navigation.PushModalAsync(createAccountPage);
-            //}
         }
 
         protected override bool OnBackButtonPressed()
         {
             return true;
+        }
+
+        public void ReloadPage()
+        {
         }
     }
 }

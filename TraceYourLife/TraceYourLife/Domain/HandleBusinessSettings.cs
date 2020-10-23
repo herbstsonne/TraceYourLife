@@ -39,7 +39,7 @@ namespace TraceYourLife.Domain
 
         public string SetEntryPasswordText()
         {
-            return person?.Password.ToString();
+            return person?.Password;
         }
 
         public Gender GetGender(string genderText)

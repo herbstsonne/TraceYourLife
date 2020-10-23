@@ -1,15 +1,16 @@
-﻿using Rg.Plugins.Popup.Pages;
-using System;
+﻿using System;
+using Rg.Plugins.Popup.Pages;
 using TraceYourLife.Domain;
 using TraceYourLife.Domain.Entities;
 using TraceYourLife.Domain.Entities.Interfaces;
+using TraceYourLife.GUI.Views.Interfaces;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace TraceYourLife.GUI
+namespace TraceYourLife.GUI.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class LoginPage : PopupPage
+    public partial class LoginPage : PopupPage, IInitializePage
     {
         private Entry editorName;
         private Entry entryPassword;
@@ -18,6 +19,15 @@ namespace TraceYourLife.GUI
         private HandleBusinessSettings businessSettings;
 
         public LoginPage()
+        {
+            person = new Person().LoadFirstPerson();
+            if (person == null)
+                return;
+            businessSettings = new HandleBusinessSettings(person);
+            SetPageParameters();
+        }
+
+        public void ReloadPage()
         {
             person = new Person().LoadFirstPerson();
             businessSettings = new HandleBusinessSettings(person);

@@ -1,17 +1,17 @@
-﻿using Rg.Plugins.Popup.Services;
-using System;
-using System.Linq;
+﻿using System;
+using Rg.Plugins.Popup.Extensions;
 using TraceYourLife.Domain;
 using TraceYourLife.Domain.Entities;
 using TraceYourLife.Domain.Entities.Interfaces;
 using TraceYourLife.Domain.Enums;
+using TraceYourLife.GUI.Views.Interfaces;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace TraceYourLife.GUI
+namespace TraceYourLife.GUI.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SettingsPage : ContentPage
+    public partial class SettingsPage : ContentPage, IInitializePage
     {
         Entry editorName;
         Entry editorAge;
@@ -24,7 +24,7 @@ namespace TraceYourLife.GUI
 
         public SettingsPage()
         {
-            person = new Person().LoadFirstPerson();
+            person = new Person().LoadFirstPerson() ?? new Person();
             SetPageParameters();
         }
 
@@ -79,12 +79,12 @@ namespace TraceYourLife.GUI
 
         private void ButtonSave_Clicked(object sender, EventArgs e)
         {
-            if (!InputTypeCorrect())
-                return;
+            //if (!InputTypeCorrect())
+            //    return;
             RenewValues();
             if (person.SavePerson())
             {
-                Navigation.PushModalAsync(new CycleChartPage());
+                Navigation.PushPopupAsync(new SuccessfulSavedPopupPage());
             }
             else
             {
@@ -134,6 +134,12 @@ namespace TraceYourLife.GUI
         protected override bool OnBackButtonPressed()
         {
             return true;
+        }
+
+        public void ReloadPage()
+        {
+            person = person ?? new Person().LoadFirstPerson() ?? new Person();
+            SetPageParameters();
         }
     }
 }
