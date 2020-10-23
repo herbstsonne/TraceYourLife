@@ -16,7 +16,7 @@ namespace TraceYourLife.GUI
     public partial class GreetPage : ContentPage
     {
         private IPerson person;
-        public GreetPage(IPerson person = null)
+        public GreetPage()
         {
             this.person = person;
             SetPageParameters();
@@ -53,17 +53,17 @@ namespace TraceYourLife.GUI
 
         private async void ButtonEnjoy_Clicked(object sender, EventArgs e)
         {
-            //TODO merken, welche Person zuletzt eingeloggt war
-            person = new Person().LoadFirstPerson();
-            if (person != null)
-            {
-                await Navigation.PushPopupAsync(new LoginPage(person));
-            }
-            else
-            {
-                var createAccountPage = new AccountPage();
-                await Navigation.PushModalAsync(createAccountPage);
-            }
+            ////TODO merken, welche Person zuletzt eingeloggt war
+            //person = new Person().LoadFirstPerson();
+            //if (person != null)
+            //{
+            //    await Navigation.PushPopupAsync(new LoginPage(person));
+            //}
+            //else
+            //{
+            //    var createAccountPage = new AccountPage();
+            //    await Navigation.PushModalAsync(createAccountPage);
+            //}
         }
 
         protected override bool OnBackButtonPressed()

@@ -18,7 +18,7 @@ namespace TraceYourLife.GUI.Views
 
             MasterBehavior = MasterBehavior.Popover;
 
-            MenuPages.Add((int)MenuItemType.Browse, (NavigationPage)Detail);
+            MenuPages.Add((int)MenuItemType.Greetings, (NavigationPage)Detail);
         }
 
         public async Task NavigateFromMenu(int id)
@@ -27,11 +27,17 @@ namespace TraceYourLife.GUI.Views
             {
                 switch (id)
                 {
-                    case (int)MenuItemType.Browse:
-                        MenuPages.Add(id, new NavigationPage(new ItemsPage()));
+                    case (int)MenuItemType.Greetings:
+                        MenuPages.Add(id, new NavigationPage(new GreetPage()));
                         break;
-                    case (int)MenuItemType.About:
-                        MenuPages.Add(id, new NavigationPage(new AboutPage()));
+                    case (int)MenuItemType.Login:
+                        MenuPages.Add(id, new NavigationPage(new LoginPage()));
+                        break;
+                    case (int)MenuItemType.Settings:
+                        MenuPages.Add(id, new NavigationPage(new SettingsPage()));
+                        break;
+                    case (int)MenuItemType.Chart:
+                        MenuPages.Add(id, new NavigationPage(new CycleChartPage()));
                         break;
                 }
             }

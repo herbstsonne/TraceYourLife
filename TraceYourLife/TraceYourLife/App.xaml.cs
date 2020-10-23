@@ -21,7 +21,7 @@ namespace TraceYourLife
         {
             AppGlobal.DbConn = DependencyService.Get<DatabaseConnection>().CreateDatabaseConnection();
             AppGlobal.CreateTables();
-            MainPage = new GreetPage();
+            MainPage = new MainPage();
         }
 
         protected override void OnSleep()

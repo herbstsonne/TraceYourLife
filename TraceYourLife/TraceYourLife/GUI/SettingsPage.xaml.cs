@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using TraceYourLife.Domain;
+using TraceYourLife.Domain.Entities;
 using TraceYourLife.Domain.Entities.Interfaces;
 using TraceYourLife.Domain.Enums;
 using Xamarin.Forms;
@@ -21,11 +22,9 @@ namespace TraceYourLife.GUI
         private HandleBusinessSettings businessSettings;
         private IPerson person;
 
-        public SettingsPage(IPerson person)
+        public SettingsPage()
         {
-            if (PopupNavigation.Instance.PopupStack.Any())
-                PopupNavigation.Instance.PopAsync();
-            this.person = person;
+            person = new Person().LoadFirstPerson();
             SetPageParameters();
         }
 
@@ -85,7 +84,7 @@ namespace TraceYourLife.GUI
             RenewValues();
             if (person.SavePerson())
             {
-                Navigation.PushModalAsync(new CycleChartPage(person));
+                Navigation.PushModalAsync(new CycleChartPage());
             }
             else
             {

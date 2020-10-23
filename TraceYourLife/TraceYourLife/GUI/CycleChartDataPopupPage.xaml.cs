@@ -71,11 +71,11 @@ namespace TraceYourLife.GUI
             if (chartHandler.DoesEntryOfDateExists(editorDate.Date))
             {
                 chartHandler.UpdateCycleEntry(editorDate.Date, Convert.ToDecimal(pickerTemp.SelectedItem));
-                Navigation.PushModalAsync(new CycleChartPage(person));
+                Navigation.PushModalAsync(new CycleChartPage());
                 return;
             }
             if(chartHandler.SaveNewCycleEntry(editorDate.Date, Convert.ToDecimal(pickerTemp.SelectedItem)))
-                Navigation.PushModalAsync(new CycleChartPage(person));
+                Navigation.PushModalAsync(new CycleChartPage());
         }
 
         protected override bool OnBackButtonPressed()

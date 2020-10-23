@@ -17,9 +17,9 @@ namespace TraceYourLife.GUI
         private IPerson person;
         private HandleBusinessSettings businessSettings;
 
-        public LoginPage(IPerson person)
+        public LoginPage()
         {
-            this.person = person;
+            person = new Person().LoadFirstPerson();
             businessSettings = new HandleBusinessSettings(person);
             SetPageParameters();
         }
@@ -87,7 +87,7 @@ namespace TraceYourLife.GUI
 
         private void ShowCycleChart()
         {
-            Navigation.PushModalAsync(new CycleChartPage(person));
+            Navigation.PushModalAsync(new CycleChartPage());
         }
 
         private bool EditorTextSet()

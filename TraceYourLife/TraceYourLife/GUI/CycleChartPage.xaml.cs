@@ -3,6 +3,7 @@ using Rg.Plugins.Popup.Extensions;
 using Rg.Plugins.Popup.Services;
 using System;
 using System.Linq;
+using TraceYourLife.Domain.Entities;
 using TraceYourLife.Domain.Entities.Interfaces;
 using TraceYourLife.Domain.Manager;
 using Xamarin.Forms;
@@ -15,12 +16,9 @@ namespace TraceYourLife.GUI
     {
         private readonly IPerson person;
 
-        public CycleChartPage(IPerson person)
+        public CycleChartPage()
         {
-            if (PopupNavigation.Instance.PopupStack.Any())
-                PopupNavigation.Instance.PopAsync();
-            
-            this.person = person;
+            person = new Person().LoadFirstPerson();
             SetPageParameters();
         }
 
@@ -60,7 +58,7 @@ namespace TraceYourLife.GUI
 
         protected override bool OnBackButtonPressed()
         {
-            Navigation.PushModalAsync(new SettingsPage(person));
+            Navigation.PushModalAsync(new SettingsPage());
             return true;
         }
     }

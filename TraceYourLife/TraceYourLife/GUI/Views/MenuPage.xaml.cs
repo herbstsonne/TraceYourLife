@@ -18,8 +18,10 @@ namespace TraceYourLife.GUI.Views
 
             menuItems = new List<HomeMenuItem>
             {
-                new HomeMenuItem {Id = MenuItemType.Browse, Title="Browse" },
-                new HomeMenuItem {Id = MenuItemType.About, Title="About" }
+                new HomeMenuItem {Id = MenuItemType.Greetings, Title="Hello" },
+                new HomeMenuItem {Id = MenuItemType.Login, Title="Login" },
+                new HomeMenuItem {Id = MenuItemType.Settings, Title="Einstellungen" },
+                new HomeMenuItem {Id = MenuItemType.Chart, Title="Basaltemperatur verwalten" }
             };
 
             ListViewMenu.ItemsSource = menuItems;
