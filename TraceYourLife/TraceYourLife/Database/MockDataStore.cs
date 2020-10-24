@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TraceYourLife.Domain.Services;
 using TraceYourLife.GUI.MenuItems;
 
-namespace TraceYourLife.Domain.Services
+namespace TraceYourLife.Database
 {
     public class MockDataStore : IDataStore<Item>
     {
-        List<Item> items;
+        readonly List<Item> items;
 
         public MockDataStore()
         {

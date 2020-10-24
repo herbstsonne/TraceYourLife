@@ -8,6 +8,7 @@ namespace TraceYourLife.Domain.Entities
     /// </summary>
     public class Food : IFood
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public FoodKind Kind { get; set; }
         public int CaloriesPer100 { get; set; }

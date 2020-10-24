@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Threading.Tasks;
 using TraceYourLife.GUI.MenuItems;
+using TraceYourLife.GUI.Views.Chart;
 using TraceYourLife.GUI.Views.Interfaces;
 using Xamarin.Forms;
 
@@ -12,7 +13,7 @@ namespace TraceYourLife.GUI.Views
     [DesignTimeVisible(true)]
     public partial class MainPage : MasterDetailPage
     {
-        Dictionary<int, NavigationPage> MenuPages = new Dictionary<int, NavigationPage>();
+        readonly Dictionary<int, NavigationPage> MenuPages = new Dictionary<int, NavigationPage>();
         public MainPage()
         {
             InitializeComponent();

@@ -1,7 +1,5 @@
-﻿using Xamarin.Forms;
-using TraceYourLife.GUI;
-using SQLite;
-using TraceYourLife.Database;
+﻿using TraceYourLife.Database;
+using Xamarin.Forms;
 using TraceYourLife.Domain.Services;
 using TraceYourLife.GUI.Views;
 
@@ -19,19 +17,15 @@ namespace TraceYourLife
 
         protected override void OnStart()
         {
-            AppGlobal.DbConn = DependencyService.Get<DatabaseConnection>().CreateDatabaseConnection();
-            AppGlobal.CreateTables();
             MainPage = new MainPage();
         }
 
         protected override void OnSleep()
         {
-            DependencyService.Get<DatabaseConnection>().CloseConnection(AppGlobal.DbConn);
         }
 
         protected override void OnResume()
         {
-            AppGlobal.DbConn = DependencyService.Get<DatabaseConnection>().CreateDatabaseConnection();
         }
     }
 }

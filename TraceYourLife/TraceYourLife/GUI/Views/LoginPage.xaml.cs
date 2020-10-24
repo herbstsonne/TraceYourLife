@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Rg.Plugins.Popup.Pages;
 using TraceYourLife.Domain;
-using TraceYourLife.Domain.Entities;
 using TraceYourLife.Domain.Entities.Interfaces;
+using TraceYourLife.Domain.Manager;
+using TraceYourLife.GUI.Views.Chart;
 using TraceYourLife.GUI.Views.Interfaces;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -17,19 +19,26 @@ namespace TraceYourLife.GUI.Views
         private Label labelInformSuccessful;
         private IPerson person;
         private HandleBusinessSettings businessSettings;
+        private PersonManager manager;
 
         public LoginPage()
         {
-            person = new Person().LoadFirstPerson();
+        }
+
+        protected override async Task OnAppearingAnimationBeginAsync()
+        {
+            await base.OnAppearingAnimationBeginAsync();
+            manager = new PersonManager();
+            person = await manager.LoadFirstPerson();
             if (person == null)
                 return;
             businessSettings = new HandleBusinessSettings(person);
             SetPageParameters();
         }
 
-        public void ReloadPage()
+        public async Task ReloadPage()
         {
-            person = new Person().LoadFirstPerson();
+            person = await manager.LoadFirstPerson();
             businessSettings = new HandleBusinessSettings(person);
             SetPageParameters();
         }
@@ -66,10 +75,10 @@ namespace TraceYourLife.GUI.Views
             layout.Children.Add(labelInformSuccessful);
         }
 
-        private void EditorName_Completed(object sender, EventArgs e)
+        private async void EditorName_Completed(object sender, EventArgs e)
         {
             var editor = sender as Editor;
-            person = new Person().GetPerson(editor.Text);
+            person = await manager.GetPerson(editor?.Text);
         }
 
         private void ButtonDone_Clicked(object sender, EventArgs e)

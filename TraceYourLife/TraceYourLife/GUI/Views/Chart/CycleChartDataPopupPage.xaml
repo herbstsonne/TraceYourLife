@@ -3,5 +3,5 @@
     xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="TraceYourLife.GUI.Views.CycleChartDataPopupPage">
+             x:Class="TraceYourLife.GUI.Views.Chart.CycleChartDataPopupPage">
 </pages:PopupPage>

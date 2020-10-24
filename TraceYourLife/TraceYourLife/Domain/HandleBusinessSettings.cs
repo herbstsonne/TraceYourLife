@@ -6,7 +6,7 @@ namespace TraceYourLife.Domain
 {
     public class HandleBusinessSettings
     {
-        private IPerson person;
+        private readonly IPerson person;
         public HandleBusinessSettings(IPerson person)
         {
             this.person = person;

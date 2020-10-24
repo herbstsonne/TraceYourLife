@@ -1,4 +1,5 @@
-﻿using TraceYourLife.GUI.Views.Interfaces;
+﻿using System.Threading.Tasks;
+using TraceYourLife.GUI.Views.Interfaces;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -43,8 +44,9 @@ namespace TraceYourLife.GUI.Views
             return true;
         }
 
-        public void ReloadPage()
+        public async Task ReloadPage()
         {
+            await Task.CompletedTask;
         }
     }
 }

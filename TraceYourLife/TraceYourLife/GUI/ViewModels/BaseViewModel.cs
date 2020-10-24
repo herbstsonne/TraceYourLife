@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using TraceYourLife.Database;
 using TraceYourLife.Domain.Services;
 using TraceYourLife.GUI.MenuItems;
 using Xamarin.Forms;

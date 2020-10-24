@@ -6,31 +6,39 @@ using TraceYourLife.Domain.Manager;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace TraceYourLife.GUI.Views
+namespace TraceYourLife.GUI.Views.Chart
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CycleChartDataPopupPage : PopupPage
     {
-        private readonly IPerson person;
+        private readonly IPerson _person;
         private HandleBusinessSettings businessSettings;
-        private TemperaturePerDayChartManager chartHandler;
+        private TemperaturePerDayChartManager _chartHandler;
         private Label labelHeader;
         private DatePicker editorDate;
         private Picker pickerTemp;
         private StackLayout layout;
-        private Label errorMessage;
+        private decimal? valueOfYesterday;
+        private readonly string _header;
 
         public CycleChartDataPopupPage(IPerson person, string header)
         {
-            this.person = person;
-            SetPageParameters(header);
+            _person = person;
+            _header = header;
+        }
+
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            _chartHandler = new TemperaturePerDayChartManager(_person);
+            valueOfYesterday = await _chartHandler.SearchValueOfYesterday();
+            SetPageParameters(_header);
         }
 
         private void SetPageParameters(string header)
         {
             InitializeComponent();
-            businessSettings = new HandleBusinessSettings(person);
-            chartHandler = new TemperaturePerDayChartManager(person);
+            businessSettings = new HandleBusinessSettings(_person);
             BackgroundInputTransparent = true;
             HasKeyboardOffset = false;
             CloseWhenBackgroundIsClicked = true;
@@ -46,7 +54,6 @@ namespace TraceYourLife.GUI.Views
             gridDate.Children.Add(GlobalGUISettings.CreateEditorLabel("Datum"), 0, 0);
             gridDate.Children.Add(editorDate, 1, 0);
 
-            decimal? valueOfYesterday = chartHandler.SearchValueOfYesterday();
             pickerTemp = GlobalGUISettings.CreatePickerTemperature(valueOfYesterday);
             var gridTemp = new Grid();
             gridTemp.Children.Add(GlobalGUISettings.CreateEditorLabel("Temperatur"), 0, 0);
@@ -55,7 +62,7 @@ namespace TraceYourLife.GUI.Views
             Button buttonDone = GlobalGUISettings.CreateButton("Done!");
             buttonDone.Clicked += ButtonDone_Clicked;
 
-            errorMessage = GlobalGUISettings.CreateLabel(String.Empty, 15);
+            var errorMessage = GlobalGUISettings.CreateLabel(String.Empty, 15);
 
             layout.Children.Add(gridDate);
             layout.Children.Add(gridTemp);
@@ -66,15 +73,14 @@ namespace TraceYourLife.GUI.Views
         {
             if (pickerTemp.SelectedItem == null)
                 return;
-            var chartHandler = new TemperaturePerDayChartManager(person);
 
-            if (chartHandler.DoesEntryOfDateExists(editorDate.Date))
+            if (_chartHandler.DoesEntryOfDateExists(editorDate.Date))
             {
-                chartHandler.UpdateCycleEntry(editorDate.Date, Convert.ToDecimal(pickerTemp.SelectedItem));
+                _chartHandler.UpdateCycleEntry(editorDate.Date, Convert.ToDecimal(pickerTemp.SelectedItem));
                 Navigation.PushModalAsync(new CycleChartPage());
                 return;
             }
-            if(chartHandler.SaveNewCycleEntry(editorDate.Date, Convert.ToDecimal(pickerTemp.SelectedItem)))
+            if(_chartHandler.SaveNewCycleEntry(editorDate.Date, Convert.ToDecimal(pickerTemp.SelectedItem)))
                 Navigation.PushModalAsync(new CycleChartPage());
         }
 

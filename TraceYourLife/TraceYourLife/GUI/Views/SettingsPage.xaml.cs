@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Rg.Plugins.Popup.Extensions;
 using TraceYourLife.Domain;
 using TraceYourLife.Domain.Entities;
 using TraceYourLife.Domain.Entities.Interfaces;
 using TraceYourLife.Domain.Enums;
+using TraceYourLife.Domain.Manager;
 using TraceYourLife.GUI.Views.Interfaces;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -21,10 +23,18 @@ namespace TraceYourLife.GUI.Views
         Entry entryPassword;
         private HandleBusinessSettings businessSettings;
         private IPerson person;
+        private PersonManager manager;
 
         public SettingsPage()
         {
-            person = new Person().LoadFirstPerson() ?? new Person();
+        }
+
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            manager = new PersonManager();
+
+            person = await manager.LoadFirstPerson() ?? new Person();
             SetPageParameters();
         }
 
@@ -82,7 +92,7 @@ namespace TraceYourLife.GUI.Views
             //if (!InputTypeCorrect())
             //    return;
             RenewValues();
-            if (person.SavePerson())
+            if (manager.SavePerson(person))
             {
                 Navigation.PushPopupAsync(new SuccessfulSavedPopupPage());
             }
@@ -94,14 +104,11 @@ namespace TraceYourLife.GUI.Views
 
         private bool InputTypeCorrect()
         {
-            int age;
-            var ageNumeric = int.TryParse(editorAge.Text, out age);
+            var ageNumeric = int.TryParse(editorAge.Text, out var age);
 
-            int height;
-            var heightNumeric = int.TryParse(editorHeight.Text, out height);
+            var heightNumeric = int.TryParse(editorHeight.Text, out var height);
 
-            decimal startWeight;
-            var weightNumeric = decimal.TryParse(editorStartWeight.Text, out startWeight);
+            var weightNumeric = decimal.TryParse(editorStartWeight.Text, out var startWeight);
             if (ageNumeric && heightNumeric && weightNumeric)
             {
                 person.Age = age;
@@ -136,9 +143,9 @@ namespace TraceYourLife.GUI.Views
             return true;
         }
 
-        public void ReloadPage()
+        public async Task ReloadPage()
         {
-            person = person ?? new Person().LoadFirstPerson() ?? new Person();
+            person = person ?? await manager.LoadFirstPerson() ?? new Person();
             SetPageParameters();
         }
     }

@@ -1,4 +1,5 @@
-﻿using TraceYourLife.Domain.Enums;
+﻿using System.Threading.Tasks;
+using TraceYourLife.Domain.Enums;
 
 namespace TraceYourLife.Domain.Entities.Interfaces
 {
@@ -11,9 +12,5 @@ namespace TraceYourLife.Domain.Entities.Interfaces
         Gender Gender { get; set; }
         decimal StartWeight { get; set; }
         string Password { get; set; }
-
-        IPerson LoadFirstPerson();
-        bool SavePerson();
-        IPerson GetPerson(string name);
     }
 }
