@@ -14,7 +14,6 @@ namespace TraceYourLife.GUI.Views.Chart
     {
         private readonly IPerson _person;
         private readonly string _header;
-        private PersonDataHandler _businessSettings;
         private TemperaturePerDayChartManager _temperaturePerDayChartManager;
         private Label labelHeader;
         private DatePicker editorDate;
@@ -27,7 +26,7 @@ namespace TraceYourLife.GUI.Views.Chart
             _header = header;
         }
 
-        protected override async void OnAppearing()
+        protected override void OnAppearing()
         {
             base.OnAppearing();
             _temperaturePerDayChartManager = new TemperaturePerDayChartManager(_person);
@@ -37,7 +36,6 @@ namespace TraceYourLife.GUI.Views.Chart
         private void SetPageParameters(string header)
         {
             InitializeComponent();
-            _businessSettings = new PersonDataHandler(_person);
             BackgroundInputTransparent = true;
             HasKeyboardOffset = false;
             CloseWhenBackgroundIsClicked = true;

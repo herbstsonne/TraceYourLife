@@ -30,6 +30,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="GUI\Views\StartPage.xaml.cs">
+      <DependentUpon>StartPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="GUI\Views\PersonalDataPage.xaml.cs">
       <DependentUpon>PersonalDataPage.xaml</DependentUpon>
     </Compile>
@@ -42,7 +45,7 @@
     <EmbeddedResource Update="GUI\Views\Chart\CycleChartPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="GUI\Views\GreetPage.xaml">
+    <EmbeddedResource Update="GUI\Views\StartPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="GUI\Views\LoginPage.xaml">

@@ -2,7 +2,7 @@
 {
     public enum MenuItemType
     {
-        Greetings,
+        Start,
         Login,
         UserData,
         Chart

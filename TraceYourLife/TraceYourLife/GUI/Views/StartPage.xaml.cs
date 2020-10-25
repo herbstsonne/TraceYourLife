@@ -6,9 +6,9 @@ using Xamarin.Forms.Xaml;
 namespace TraceYourLife.GUI.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class GreetPage : ContentPage, IInitializePage
+    public partial class StartPage : ContentPage, IInitializePage
     {
-        public GreetPage()
+        public StartPage()
         {
             SetPageParameters();
         }
