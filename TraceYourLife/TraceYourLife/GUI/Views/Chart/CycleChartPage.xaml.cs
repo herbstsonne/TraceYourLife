@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using OxyPlot.Xamarin.Forms;
-using Rg.Plugins.Popup.Extensions;
 using TraceYourLife.Domain.Entities.Interfaces;
 using TraceYourLife.Domain.Manager;
 using TraceYourLife.GUI.Views.Interfaces;
@@ -13,25 +13,28 @@ namespace TraceYourLife.GUI.Views.Chart
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CycleChartPage : ContentPage, IInitializePage
     {
-        private IPerson person;
+        private IPerson _person;
         private PersonManager _personManager;
+        private TemperaturePerDayChartManager _chartHandler;
 
         protected override async void OnAppearing()
         {
             base.OnAppearing();
             _personManager = new PersonManager();
-            person = await _personManager.LoadFirstPerson();
-            if (person == null)
+            _person = await _personManager.LoadFirstPerson();
+            if (_person == null)
             {
                 await Navigation.PushAsync(new SettingsPage());
                 return;
             }
+            _chartHandler = new TemperaturePerDayChartManager(_person);
             SetPageParameters();
         }
 
         public async Task ReloadPage()
         {
-            person = await _personManager.LoadFirstPerson();
+            _person = _person ?? await _personManager.LoadFirstPerson();
+            _chartHandler.RetrieveCycleOf();
             SetPageParameters();
         }
 
@@ -40,7 +43,7 @@ namespace TraceYourLife.GUI.Views.Chart
             InitializeComponent();
             var bgImage = new Image()
             {
-                Source = Device.RuntimePlatform == Device.Android ? ImageSource.FromFile("meer.jpg") : ImageSource.FromFile("meer.jpg")
+                Source = ImageSource.FromFile("himmel.jpg")
             };
             var layout = new StackLayout { Padding = new Thickness(5, 10) };
             var absLayout = new AbsoluteLayout()
@@ -51,7 +54,7 @@ namespace TraceYourLife.GUI.Views.Chart
             };
             this.Content = absLayout;
 
-            var cycleHandler = new TemperaturePerDayChartManager(person);
+            var cycleHandler = new TemperaturePerDayChartManager(_person);
             cycleHandler.CreateLineChart("Zyklus");
             PlotView view = GlobalGUISettings.CreatePlotModelCycle(cycleHandler);
 
@@ -66,7 +69,13 @@ namespace TraceYourLife.GUI.Views.Chart
         private async void ButtonInsertNewData_Clicked(object sender, EventArgs e)
         {
             var informationMessage = "Neue Daten eingeben";
-            await Navigation.PushPopupAsync(new CycleChartDataPopupPage(person, informationMessage));
+            var currentDate = DateTime.Now.ToShortDateString();
+            string result = await DisplayPromptAsync(informationMessage, currentDate, 
+                initialValue: "36,00", keyboard: Keyboard.Numeric);
+            var decimalValue = decimal.Parse(result, new NumberFormatInfo() { NumberDecimalSeparator = "," });
+            _chartHandler.UpdateCycleEntryTable(DateTime.Now, decimalValue);
+            await ReloadPage();
+            //await Navigation.PushPopupAsync(new CycleChartDataPopupPage(_person, informationMessage));
         }
 
         protected override bool OnBackButtonPressed()

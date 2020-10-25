@@ -167,4 +167,7 @@
   <ItemGroup>
     <BundleResource Include="Resources\miri1.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\himmel.JPG" />
+  </ItemGroup>
 </Project>

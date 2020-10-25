@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
-using TraceYourLife.Database;
 using TraceYourLife.Database.Repositories;
 using TraceYourLife.Domain.Entities;
 using TraceYourLife.Domain.Entities.Interfaces;
@@ -47,16 +46,25 @@ namespace TraceYourLife.Domain.Manager
             return dbCycle.SaveNewData(cycleEntry);
         }
 
-        public void UpdateCycleEntry(DateTime date, decimal bTemp)
-        {
-            var cycleEntry = new TemperaturePerDay()
-            {
-                Date = date,
-                BasalTemperature = bTemp,
-                PersonId = person.Id
-            };
 
-            dbCycle.UpdateEntry(cycleEntry);
+        public void UpdateCycleEntryTable(DateTime date, decimal bTemp)
+        {
+            var entry = dbCycle.GetEntry(date, person.Id);
+            if (entry == null)
+            {
+                entry = new TemperaturePerDay()
+                {
+                    Date = date,
+                    BasalTemperature = bTemp,
+                    PersonId = person.Id
+                };
+                dbCycle.SaveNewData(entry);
+            }
+            else
+            {
+                entry.BasalTemperature = bTemp;
+                dbCycle.UpdateEntry(entry);
+            }
         }
 
         public bool DoesEntryOfDateExists(DateTime date)

@@ -5,7 +5,6 @@ namespace TraceYourLife.Domain.Entities
 {
     public class TemperaturePerDay
     {
-        [PrimaryKey, AutoIncrement, Unique]
         public int Id { get; set; }
 
         public DateTime Date { get; set; }

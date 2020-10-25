@@ -87,14 +87,15 @@ namespace TraceYourLife.GUI.Views
             layout.Children.Add(buttonSave);
         }
 
-        private void ButtonSave_Clicked(object sender, EventArgs e)
+        private async void ButtonSave_Clicked(object sender, EventArgs e)
         {
             //if (!InputTypeCorrect())
             //    return;
             RenewValues();
             if (manager.SavePerson(person))
             {
-                Navigation.PushPopupAsync(new SuccessfulSavedPopupPage());
+                //Navigation.PushPopupAsync(new SuccessfulSavedPopupPage());
+                await DisplayAlert("", "Einstellungen gespeichert", "OK");
             }
             else
             {

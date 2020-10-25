@@ -51,7 +51,17 @@ namespace TraceYourLife.Database.Repositories
         {
             using (var lifeContext = new TraceYourLifeContext())
             {
-                lifeContext.TemperaturePerDay.Update(entry);
+                lifeContext.TemperaturePerDay.Update(entry); 
+                lifeContext.SaveChanges();
+            }
+        }
+
+        public TemperaturePerDay GetEntry(DateTime date, int personId)
+        {
+            using (var lifeContext = new TraceYourLifeContext())
+            {
+                var allEntriesOfCurrentPerson = lifeContext.TemperaturePerDay.Where(c => c.PersonId == personId).ToList();
+                return allEntriesOfCurrentPerson.FirstOrDefault(t => t.Date == date);
             }
         }
     }
