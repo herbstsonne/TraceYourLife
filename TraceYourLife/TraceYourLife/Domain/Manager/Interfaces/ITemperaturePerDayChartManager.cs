@@ -5,12 +5,10 @@ using TraceYourLife.Domain.Entities;
 
 namespace TraceYourLife.Domain.Manager.Interfaces
 {
-    public interface ITemperaturePerDayChartDataLoader
+    public interface ITemperaturePerDayChartManager
     {
         List<TemperaturePerDay> RetrieveCycleOf();
         bool SaveNewCycleEntry(DateTime date, decimal bTemp);
         void UpdateCycleEntryTable(DateTime date, decimal bTemp);
-        bool DoesEntryOfDateExists(DateTime date);
-        Task<decimal?> SearchValueOfYesterday();
     }
 }

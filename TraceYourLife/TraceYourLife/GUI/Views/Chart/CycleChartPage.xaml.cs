@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Globalization;
 using System.Threading.Tasks;
 using OxyPlot.Xamarin.Forms;
-using Rg.Plugins.Popup.Extensions;
 using TraceYourLife.Domain.Entities.Interfaces;
 using TraceYourLife.Domain.Manager;
+using TraceYourLife.Domain.Manager.Interfaces;
 using TraceYourLife.GUI.Views.Interfaces;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -15,8 +14,8 @@ namespace TraceYourLife.GUI.Views.Chart
     public partial class CycleChartPage : ContentPage, IInitializePage
     {
         private IPerson _person;
-        private PersonManager _personManager;
-        private TemperaturePerDayChartManager _chartHandler;
+        private IPersonManager _personManager;
+        private ICycleChartManager _chartHandler;
 
         protected override async void OnAppearing()
         {
@@ -25,17 +24,17 @@ namespace TraceYourLife.GUI.Views.Chart
             _person = await _personManager.LoadFirstPerson();
             if (_person == null)
             {
-                await Navigation.PushAsync(new NavigationPage(new SettingsPage()));
+                await Navigation.PushAsync(new NavigationPage(new PersonalDataPage()));
                 return;
             }
-            _chartHandler = new TemperaturePerDayChartManager(_person);
+            _chartHandler = new CycleChartManager(new TemperaturePerDayChartManager(_person));
             SetPageParameters();
         }
 
         public async Task ReloadPage()
         {
             _person = _person ?? await _personManager.LoadFirstPerson();
-            _chartHandler.RetrieveCycleOf();
+            _chartHandler.FillCyclePointList();
             SetPageParameters();
         }
 
@@ -55,11 +54,10 @@ namespace TraceYourLife.GUI.Views.Chart
             };
             this.Content = absLayout;
 
-            var cycleHandler = new TemperaturePerDayChartManager(_person);
-            cycleHandler.CreateLineChart("Zyklus");
-            PlotView view = GlobalGUISettings.CreatePlotModelCycle(cycleHandler);
+            _chartHandler.CreateLineChart("Zyklus");
+            PlotView view = GuiElementsFactory.CreatePlotModelCycle(_chartHandler);
 
-            Button buttonInsertNewData = GlobalGUISettings.CreateButton("Neue Daten eingeben!");
+            Button buttonInsertNewData = GuiElementsFactory.CreateButton("Neue Daten eingeben!");
             buttonInsertNewData.Clicked += ButtonInsertNewData_Clicked;
 
             layout.Children.Add(view);
@@ -76,7 +74,7 @@ namespace TraceYourLife.GUI.Views.Chart
 
         protected override bool OnBackButtonPressed()
         {
-            Navigation.PushModalAsync(new NavigationPage(new SettingsPage()));
+            Navigation.PushModalAsync(new NavigationPage(new PersonalDataPage()));
             return true;
         }
     }

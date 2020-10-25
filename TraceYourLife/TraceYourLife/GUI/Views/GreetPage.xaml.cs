@@ -29,8 +29,8 @@ namespace TraceYourLife.GUI.Views
             };
             this.Content = absLayout;
 
-            var labelHeader = GlobalGUISettings.CreateLabel("Trace Your Life!", 35);
-            var labelPoem = GlobalGUISettings.CreateLabel("It's the possibility of having a dream come true that makes life interesting.", 25);
+            var labelHeader = GuiElementsFactory.CreateLabel("Trace Your Life!", 35);
+            var labelPoem = GuiElementsFactory.CreateLabel("It's the possibility of having a dream come true that makes life interesting.", 25);
             labelPoem.HorizontalOptions = LayoutOptions.CenterAndExpand;
             labelPoem.VerticalOptions = LayoutOptions.CenterAndExpand;
 

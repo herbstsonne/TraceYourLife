@@ -1,12 +1,13 @@
-﻿using OxyPlot.Xamarin.Forms;
+﻿using System;
+using OxyPlot.Xamarin.Forms;
 using System.Collections.Generic;
 using TraceYourLife.Domain.Enums;
-using TraceYourLife.Domain.Manager;
+using TraceYourLife.Domain.Manager.Interfaces;
 using Xamarin.Forms;
 
 namespace TraceYourLife.GUI
 {
-    public static class GlobalGUISettings
+    public static class GuiElementsFactory
     {
         public static string UseFontFamilyFFFTusj()
         {
@@ -24,7 +25,7 @@ namespace TraceYourLife.GUI
                 FontAttributes = FontAttributes.Italic,
                 TextColor = Color.CornflowerBlue,
                 FontSize = fontSize,
-                FontFamily = GlobalGUISettings.UseFontFamilyFFFTusj()
+                FontFamily = GuiElementsFactory.UseFontFamilyFFFTusj()
             };
         }
 
@@ -37,7 +38,7 @@ namespace TraceYourLife.GUI
                 FontAttributes = FontAttributes.Italic,
                 TextColor = Color.Black,
                 FontSize = 20,
-                FontFamily = GlobalGUISettings.UseFontFamilyFFFTusj()
+                FontFamily = UseFontFamilyFFFTusj()
             };
         }
 
@@ -65,7 +66,6 @@ namespace TraceYourLife.GUI
             return new Entry
             {
                 Text = text,
-                //BackgroundColor = Color.FromHex("#64DAED"),
                 Placeholder = placeholder,
                 FontSize = 15,
                 WidthRequest = 25,
@@ -84,49 +84,29 @@ namespace TraceYourLife.GUI
             };
         }
 
-        public static Picker CreatePickerTemperature(decimal? valueOfYesterday)
-        {
-            var maxTemp = 38.5m;
-            var curTemp = 35.5m;
-            var allTemps = new List<decimal>();
-            while (curTemp < maxTemp)
-            {
-                allTemps.Add(curTemp);
-                curTemp += 0.01m;
-            }
-            
-            return new Picker
-            {
-                ItemsSource = allTemps,
-                SelectedItem = valueOfYesterday != null ? valueOfYesterday : null,
-                FontFamily = UseFontFamilyFFFTusj(),
-                FontSize = 10,
-                WidthRequest = 25
-            };
-        }
-
         public static Picker CreatePickerGender(Gender setGender)
         {
             return new Picker
             {
                 ItemsSource = new List<Gender> { Gender.Female, Gender.Male },
                 FontFamily = UseFontFamilyFFFTusj(),
-                FontSize = 10,
+                FontSize = 15,
                 WidthRequest = 25
             };
         }
 
-        public static DatePicker CreateDatePicker(object globalGuiSettings)
+        public static DatePicker CreateDatePicker()
         {
             return new DatePicker
             {
                 FontFamily = UseFontFamilyFFFTusj(),
                 Format = "dd-MM-yy",
-                BackgroundColor = Color.FromHex("#64DAED")
+                BackgroundColor = Color.FromHex("#64DAED"),
+                Date = DateTime.Now
             };
         }
 
-        public static PlotView CreatePlotModelCycle(TemperaturePerDayChartManager cycleHandler)
+        public static PlotView CreatePlotModelCycle(ICycleChartManager cycleHandler)
         {
             PlotView view = new PlotView();
             view.SetBinding(PlotView.ModelProperty, new Binding("LineChart"));
@@ -150,7 +130,7 @@ namespace TraceYourLife.GUI
                 CornerRadius = 10, 
                 HeightRequest = 35,
                 BackgroundColor = Color.White,
-                FontFamily = GlobalGUISettings.UseFontFamilyFFFTusj()
+                FontFamily = GuiElementsFactory.UseFontFamilyFFFTusj()
             };
         }
 

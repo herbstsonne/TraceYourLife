@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Rg.Plugins.Popup.Extensions;
 using TraceYourLife.Domain;
 using TraceYourLife.Domain.Entities;
 using TraceYourLife.Domain.Entities.Interfaces;
 using TraceYourLife.Domain.Enums;
 using TraceYourLife.Domain.Manager;
+using TraceYourLife.Domain.Manager.Interfaces;
 using TraceYourLife.GUI.Views.Interfaces;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -13,7 +13,7 @@ using Xamarin.Forms.Xaml;
 namespace TraceYourLife.GUI.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SettingsPage : ContentPage, IInitializePage
+    public partial class PersonalDataPage : ContentPage, IInitializePage
     {
         Entry editorName;
         Entry editorAge;
@@ -21,16 +21,16 @@ namespace TraceYourLife.GUI.Views
         Picker pickerGender;
         Entry editorStartWeight;
         Entry entryPassword;
-        private HandleBusinessSettings businessSettings;
-        private IPerson person;
-        private PersonManager manager;
+        private PersonDataHandler _businessSettings;
+        private IPerson _person;
+        private IPersonManager _manager;
 
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            manager = new PersonManager();
+            _manager = new PersonManager();
 
-            person = await manager.LoadFirstPerson() ?? new Person();
+            _person = await _manager.LoadFirstPerson() ?? new Person();
             SetPageParameters();
         }
 
@@ -38,22 +38,22 @@ namespace TraceYourLife.GUI.Views
         {
             InitializeComponent();
 
-            businessSettings = new HandleBusinessSettings(person);
+            _businessSettings = new PersonDataHandler(_person);
             var layout = new StackLayout { Padding = new Thickness(5, 10) };
             this.Content = layout;
 
-            Button buttonSave = GlobalGUISettings.CreateButton("Speichern!");
+            Button buttonSave = GuiElementsFactory.CreateButton("Speichern!");
             buttonSave.Clicked += ButtonSave_Clicked;
 
-            var labelHeader = GlobalGUISettings.CreateLabel("Persönliche Daten", 30);
+            var labelHeader = GuiElementsFactory.CreateLabel("Persönliche Daten", 30);
             layout.Children.Add(labelHeader);
 
-            editorName = GlobalGUISettings.CreateEntry("Gib deinen Namen ein (Pflichtfeld)", businessSettings.SetEditorNameText());
-            editorAge = GlobalGUISettings.CreateEntry("Gib dein Alter ein", businessSettings.SetEditorAgeText());
-            editorHeight = GlobalGUISettings.CreateEntry("Gib deine Größe ein", businessSettings.SetEditorHeightText());
-            pickerGender = GlobalGUISettings.CreatePickerGender(businessSettings.SetPickerGender());
-            editorStartWeight = GlobalGUISettings.CreateEntry("Gib dein Gewicht ein", businessSettings.SetEditorStartWeightText());
-            entryPassword = GlobalGUISettings.CreatePasswordField("Gib ein Passwort ein", businessSettings.SetEntryPasswordText());
+            editorName = GuiElementsFactory.CreateEntry("Gib deinen Namen ein (Pflichtfeld)", _businessSettings.GetPersonName());
+            editorAge = GuiElementsFactory.CreateEntry("Gib dein Alter ein", _businessSettings.GetPersonAge());
+            editorHeight = GuiElementsFactory.CreateEntry("Gib deine Größe ein", _businessSettings.GetPersonHeight());
+            pickerGender = GuiElementsFactory.CreatePickerGender(_businessSettings.GetPersonGender());
+            editorStartWeight = GuiElementsFactory.CreateEntry("Gib dein Gewicht ein", _businessSettings.GetPersonStartweight());
+            entryPassword = GuiElementsFactory.CreatePasswordField("Gib ein Passwort ein", _businessSettings.GetPersonPassword());
             var gridName = new Grid();
             var gridAge = new Grid();
             var gridHeight = new Grid();
@@ -61,22 +61,22 @@ namespace TraceYourLife.GUI.Views
             var gridStartWeight = new Grid();
             var gridPassword = new Grid();
 
-            var frameName = GlobalGUISettings.CreateFrame();
+            var frameName = GuiElementsFactory.CreateFrame();
             gridName.Children.Add(frameName);
             frameName.Content = editorName;
-            var frameAge = GlobalGUISettings.CreateFrame();
+            var frameAge = GuiElementsFactory.CreateFrame();
             gridAge.Children.Add(frameAge);
             frameAge.Content = editorAge;
-            var frameHeight = GlobalGUISettings.CreateFrame();
+            var frameHeight = GuiElementsFactory.CreateFrame();
             gridHeight.Children.Add(frameHeight);
             frameHeight.Content = editorHeight;
-            var frameGender = GlobalGUISettings.CreateFrame();
+            var frameGender = GuiElementsFactory.CreateFrame();
             gridGender.Children.Add(frameGender);
             frameGender.Content = pickerGender;
-            var frameWeight = GlobalGUISettings.CreateFrame();
+            var frameWeight = GuiElementsFactory.CreateFrame();
             gridStartWeight.Children.Add(frameWeight);
             frameWeight.Content = editorStartWeight;
-            var framePassword = GlobalGUISettings.CreateFrame();
+            var framePassword = GuiElementsFactory.CreateFrame();
             gridPassword.Children.Add(framePassword);
             framePassword.Content = entryPassword;
 
@@ -94,7 +94,7 @@ namespace TraceYourLife.GUI.Views
             //if (!InputTypeCorrect())
             //    return;
             RenewValues();
-            if (manager.SavePerson(person))
+            if (_manager.SavePerson(_person))
             {
                 await DisplayAlert("", "Persönliche Daten gespeichert", "OK");
             }
@@ -113,9 +113,9 @@ namespace TraceYourLife.GUI.Views
             var weightNumeric = decimal.TryParse(editorStartWeight.Text, out var startWeight);
             if (ageNumeric && heightNumeric && weightNumeric)
             {
-                person.Age = age;
-                person.Height = height;
-                person.StartWeight = startWeight;
+                _person.Age = age;
+                _person.Height = height;
+                _person.StartWeight = startWeight;
             }
             else
             {
@@ -135,12 +135,12 @@ namespace TraceYourLife.GUI.Views
 
         private void RenewValues()
         {
-            person.Name = editorName.Text;
-            person.Age = Convert.ToInt16(editorAge.Text);
-            person.Height = Convert.ToInt16(editorHeight.Text);
-            person.StartWeight = Convert.ToDecimal(editorStartWeight.Text);
-            person.Gender = (Gender?) pickerGender.SelectedItem ?? Gender.Female;
-            person.Password = entryPassword.Text;
+            _person.Name = editorName.Text;
+            _person.Age = Convert.ToInt16(editorAge.Text);
+            _person.Height = Convert.ToInt16(editorHeight.Text);
+            _person.StartWeight = Convert.ToDecimal(editorStartWeight.Text);
+            _person.Gender = (Gender?) pickerGender.SelectedItem ?? Gender.Female;
+            _person.Password = entryPassword.Text;
         }
 
         protected override bool OnBackButtonPressed()
@@ -150,7 +150,7 @@ namespace TraceYourLife.GUI.Views
 
         public async Task ReloadPage()
         {
-            person = person ?? await manager.LoadFirstPerson() ?? new Person();
+            _person = _person ?? await _manager.LoadFirstPerson() ?? new Person();
             SetPageParameters();
         }
     }

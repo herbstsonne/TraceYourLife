@@ -1,9 +1,9 @@
 ﻿
 namespace TraceYourLife.Domain.Manager.Interfaces
 {
-    public interface ITemperaturePerDayChartInitializer
+    public interface ICycleChartManager
     {
         void CreateLineChart(string title);
-
+        void FillCyclePointList();
     }
 }

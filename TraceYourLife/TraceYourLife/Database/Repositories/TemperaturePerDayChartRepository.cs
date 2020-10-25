@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using TraceYourLife.Domain.Entities;
 using TraceYourLife.Domain.Entities.Interfaces;
 
@@ -23,26 +22,6 @@ namespace TraceYourLife.Database.Repositories
             {
                 lifeContext.Add(chart);
                 return lifeContext.SaveChanges() >= 1;
-            }
-        }
-
-        public async Task<decimal?> LoadValueOYesterday(IPerson person)
-        {
-            using (var lifeContext = new TraceYourLifeContext())
-            {
-                var theDayBefore = DateTime.Now.AddDays(-1).Date;
-                var allEntriesOfCurrentPerson = lifeContext.TemperaturePerDay.Where(c => c.PersonId == person.Id).ToList();
-                var lastEntry = allEntriesOfCurrentPerson.LastOrDefault(c => c.Date.Date == theDayBefore);
-                return lastEntry?.BasalTemperature;
-            }
-        }
-
-        public int CountEntriesOfDate(IPerson person, DateTime date)
-        {
-            using (var lifeContext = new TraceYourLifeContext())
-            {
-                return lifeContext.TemperaturePerDay.Count(c => c.PersonId == person.Id
-                                                                && c.Date.Date == date.Date);
             }
         }
 

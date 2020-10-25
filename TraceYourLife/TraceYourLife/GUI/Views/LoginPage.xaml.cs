@@ -4,6 +4,7 @@ using Rg.Plugins.Popup.Pages;
 using TraceYourLife.Domain;
 using TraceYourLife.Domain.Entities.Interfaces;
 using TraceYourLife.Domain.Manager;
+using TraceYourLife.Domain.Manager.Interfaces;
 using TraceYourLife.GUI.Views.Chart;
 using TraceYourLife.GUI.Views.Interfaces;
 using Xamarin.Forms;
@@ -18,8 +19,8 @@ namespace TraceYourLife.GUI.Views
         private Entry entryPassword;
         private Label labelInformSuccessful;
         private IPerson person;
-        private HandleBusinessSettings businessSettings;
-        private PersonManager manager;
+        private PersonDataHandler businessSettings;
+        private IPersonManager manager;
 
         public LoginPage()
         {
@@ -32,14 +33,14 @@ namespace TraceYourLife.GUI.Views
             person = await manager.LoadFirstPerson();
             if (person == null)
                 return;
-            businessSettings = new HandleBusinessSettings(person);
+            businessSettings = new PersonDataHandler(person);
             SetPageParameters();
         }
 
         public async Task ReloadPage()
         {
             person = await manager.LoadFirstPerson();
-            businessSettings = new HandleBusinessSettings(person);
+            businessSettings = new PersonDataHandler(person);
             SetPageParameters();
         }
 
@@ -50,23 +51,23 @@ namespace TraceYourLife.GUI.Views
             HasKeyboardOffset = false;
             CloseWhenBackgroundIsClicked = true;
 
-            var layout = GlobalGUISettings.InitializePopupLayout();
+            var layout = GuiElementsFactory.InitializePopupLayout();
             this.Content = layout;
 
-            Button buttonDone = GlobalGUISettings.CreateButton("Login!");
+            Button buttonDone = GuiElementsFactory.CreateButton("Login!");
             buttonDone.Clicked += ButtonDone_Clicked;
 
-            editorName = GlobalGUISettings.CreateEntry("Gib deinen Namen ein", businessSettings.SetEditorNameText());
+            editorName = GuiElementsFactory.CreateEntry("Gib deinen Namen ein", businessSettings.GetPersonName());
             editorName.Completed += EditorName_Completed;
 
-            entryPassword = GlobalGUISettings.CreatePasswordField("Gib ein Passwort ein", "");
-            labelInformSuccessful = GlobalGUISettings.CreateLabel("", 10);
+            entryPassword = GuiElementsFactory.CreatePasswordField("Gib ein Passwort ein", "");
+            labelInformSuccessful = GuiElementsFactory.CreateLabel("", 10);
 
             var gridName = new Grid();
             var gridPassword = new Grid();
-            gridName.Children.Add(GlobalGUISettings.CreateEditorLabel("Spitzname"), 0, 0);
+            gridName.Children.Add(GuiElementsFactory.CreateEditorLabel("Spitzname"), 0, 0);
             gridName.Children.Add(editorName, 1, 0);
-            gridPassword.Children.Add(GlobalGUISettings.CreateEditorLabel("Passwort"), 0, 0);
+            gridPassword.Children.Add(GuiElementsFactory.CreateEditorLabel("Passwort"), 0, 0);
             gridPassword.Children.Add(entryPassword, 1, 0);
 
             layout.Children.Add(gridName);

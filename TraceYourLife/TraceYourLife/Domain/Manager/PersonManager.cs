@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
-using TraceYourLife.Database;
 using TraceYourLife.Database.Repositories;
 using TraceYourLife.Domain.Entities.Interfaces;
+using TraceYourLife.Domain.Manager.Interfaces;
 
 namespace TraceYourLife.Domain.Manager
 {
-    public class PersonManager
+    public class PersonManager : IPersonManager
     {
         private readonly PersonRepository _dbPerson;
 
