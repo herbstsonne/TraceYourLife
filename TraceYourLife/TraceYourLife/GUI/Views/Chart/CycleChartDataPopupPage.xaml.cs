@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Rg.Plugins.Popup.Pages;
 using TraceYourLife.Domain;
 using TraceYourLife.Domain.Entities.Interfaces;
@@ -71,14 +72,9 @@ namespace TraceYourLife.GUI.Views.Chart
 
         private void ButtonDone_Clicked(object sender, EventArgs e)
         {
-            /*if (_chartHandler.DoesEntryOfDateExists(editorDate.Date))
-            {
-                _chartHandler.UpdateCycleEntry(editorDate.Date, Convert.ToDecimal(pickerTemp));
-                Navigation.PushModalAsync(new CycleChartPage());
-                return;
-            }
-            if(_chartHandler.SaveNewCycleEntry(editorDate.Date, Convert.ToDecimal(pickerTemp)))
-                Navigation.PushModalAsync(new CycleChartPage());*/
+            var decimalValue = decimal.Parse(pickerTemp.Text, new NumberFormatInfo() { NumberDecimalSeparator = "," });
+            _chartHandler.UpdateCycleEntryTable(editorDate.Date, decimalValue);
+            Navigation.PopModalAsync();
         }
 
         protected override bool OnBackButtonPressed()

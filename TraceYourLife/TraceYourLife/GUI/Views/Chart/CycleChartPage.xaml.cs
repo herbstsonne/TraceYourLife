@@ -70,13 +70,7 @@ namespace TraceYourLife.GUI.Views.Chart
         private async void ButtonInsertNewData_Clicked(object sender, EventArgs e)
         {
             var informationMessage = "Neue Daten eingeben";
-            /*var currentDate = DateTime.Now.ToShortDateString();
-            string result = await DisplayPromptAsync(informationMessage, currentDate, 
-                initialValue: "36,00", keyboard: Keyboard.Numeric);
-            if(!String.IsNullOrEmpty(result))
-                RenewCycleTable(result);
-            await ReloadPage();*/
-            await Navigation.PushPopupAsync(new CycleChartDataPopupPage(_person, informationMessage));
+            await Navigation.PushModalAsync(new CycleChartDataPopupPage(_person, informationMessage));
             await ReloadPage();
         }
 
@@ -84,12 +78,6 @@ namespace TraceYourLife.GUI.Views.Chart
         {
             Navigation.PushModalAsync(new NavigationPage(new SettingsPage()));
             return true;
-        }
-
-        private void RenewCycleTable(string result)
-        {
-            var decimalValue = decimal.Parse(result, new NumberFormatInfo() { NumberDecimalSeparator = "," });
-            _chartHandler.UpdateCycleEntryTable(DateTime.Now, decimalValue);
         }
     }
 }
