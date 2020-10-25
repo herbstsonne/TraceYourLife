@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using TraceYourLife.Domain.Entities;
 using TraceYourLife.Domain.Entities.Interfaces;
 
@@ -14,7 +13,7 @@ namespace TraceYourLife.Database.Repositories
         {
             using (var lifeContext = new TraceYourLifeContext())
             {
-                return lifeContext.TemperaturePerDay.Where(c => c.PersonId == person.Id).OrderByDescending(d => d.Date).Take(28).ToList();
+                return lifeContext.TemperaturePerDay.Where(c => c.PersonId == person.Id).OrderByDescending(d => d.Date.Date).Take(28).ToList();
             }
         }
 
@@ -31,9 +30,9 @@ namespace TraceYourLife.Database.Repositories
         {
             using (var lifeContext = new TraceYourLifeContext())
             {
-                var theDayBefore = DateTime.Now.AddDays(-1).Day;
+                var theDayBefore = DateTime.Now.AddDays(-1).Date;
                 var allEntriesOfCurrentPerson = lifeContext.TemperaturePerDay.Where(c => c.PersonId == person.Id).ToList();
-                var lastEntry = allEntriesOfCurrentPerson.LastOrDefault(c => c.Date.Day == theDayBefore);
+                var lastEntry = allEntriesOfCurrentPerson.LastOrDefault(c => c.Date.Date == theDayBefore);
                 return lastEntry?.BasalTemperature;
             }
         }
@@ -43,7 +42,7 @@ namespace TraceYourLife.Database.Repositories
             using (var lifeContext = new TraceYourLifeContext())
             {
                 return lifeContext.TemperaturePerDay.Count(c => c.PersonId == person.Id
-                                                                && c.Date == date);
+                                                                && c.Date.Date == date.Date);
             }
         }
 
@@ -61,7 +60,7 @@ namespace TraceYourLife.Database.Repositories
             using (var lifeContext = new TraceYourLifeContext())
             {
                 var allEntriesOfCurrentPerson = lifeContext.TemperaturePerDay.Where(c => c.PersonId == personId).ToList();
-                return allEntriesOfCurrentPerson.FirstOrDefault(t => t.Date == date);
+                return allEntriesOfCurrentPerson.FirstOrDefault(t => t.Date.Date == date.Date);
             }
         }
     }

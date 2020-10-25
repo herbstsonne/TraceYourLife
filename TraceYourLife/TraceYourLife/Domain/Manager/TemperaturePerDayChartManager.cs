@@ -38,7 +38,7 @@ namespace TraceYourLife.Domain.Manager
         {
             var cycleEntry = new TemperaturePerDay()
             {
-                Date = date,
+                Date = date.Date,
                 BasalTemperature = bTemp,
                 PersonId = person.Id
             };
@@ -54,7 +54,7 @@ namespace TraceYourLife.Domain.Manager
             {
                 entry = new TemperaturePerDay()
                 {
-                    Date = date,
+                    Date = date.Date,
                     BasalTemperature = bTemp,
                     PersonId = person.Id
                 };
