@@ -1,12 +1,6 @@
-﻿using System;
-
-using Android.App;
+﻿using Android.App;
 using Android.Content.PM;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Android.OS;
-using System.IO;
 
 namespace TraceYourLife.Droid
 {
@@ -24,35 +18,16 @@ namespace TraceYourLife.Droid
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             OxyPlot.Xamarin.Forms.Platform.Android.PlotViewRenderer.Init();
-            CopyDatabaseFromAssetsToExternalAndroidStorage();
             LoadApplication(new App());
         }
 
-        private void CopyDatabaseFromAssetsToExternalAndroidStorage()
-        {
-            try
-            {
-                //TODO entfernen
-                File.Delete(Path.Combine(AppGlobal.DatabaseFilePathAndroid, AppGlobal.DatabaseFileName));
-                if (!File.Exists(Path.Combine(AppGlobal.DatabaseFilePathAndroid, AppGlobal.DatabaseFileName)))
-                {
-                    using (var asset = Assets.Open(AppGlobal.DatabaseFileName))
-                    using (var dest = File.Create(AppGlobal.DatabaseFilePathAndroid))
-                    {
-                        asset.CopyTo(dest);
-                    }
-                }
-            }
-            catch (System.Exception ex)
-            {
-                Toast.MakeText(this, ex.ToString(), ToastLength.Long).Show();
-            }
-        }
+       
         public override void OnBackPressed()
         {
             if (Rg.Plugins.Popup.Popup.SendBackPressed(base.OnBackPressed))
             {
                 // Do something if there are some pages in the `PopupStack`
+                
             }
             else
             {

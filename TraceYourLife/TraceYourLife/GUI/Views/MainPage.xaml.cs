@@ -13,7 +13,7 @@ namespace TraceYourLife.GUI.Views
     [DesignTimeVisible(true)]
     public partial class MainPage : MasterDetailPage
     {
-        readonly Dictionary<int, NavigationPage> MenuPages = new Dictionary<int, NavigationPage>();
+        Dictionary<int, NavigationPage> MenuPages = new Dictionary<int, NavigationPage>();
         public MainPage()
         {
             InitializeComponent();
@@ -51,7 +51,6 @@ namespace TraceYourLife.GUI.Views
 
                 if (Device.RuntimePlatform == Device.Android)
                     await Task.Delay(100);
-
                 IsPresented = false;
             }
         }

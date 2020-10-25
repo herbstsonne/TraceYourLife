@@ -24,7 +24,7 @@ namespace TraceYourLife.GUI.Views.Chart
             _person = await _personManager.LoadFirstPerson();
             if (_person == null)
             {
-                await Navigation.PushAsync(new SettingsPage());
+                await Navigation.PushAsync(new NavigationPage(new SettingsPage()));
                 return;
             }
             _chartHandler = new TemperaturePerDayChartManager(_person);
@@ -72,16 +72,21 @@ namespace TraceYourLife.GUI.Views.Chart
             var currentDate = DateTime.Now.ToShortDateString();
             string result = await DisplayPromptAsync(informationMessage, currentDate, 
                 initialValue: "36,00", keyboard: Keyboard.Numeric);
-            var decimalValue = decimal.Parse(result, new NumberFormatInfo() { NumberDecimalSeparator = "," });
-            _chartHandler.UpdateCycleEntryTable(DateTime.Now, decimalValue);
+            RenewCycleTable(result);
             await ReloadPage();
             //await Navigation.PushPopupAsync(new CycleChartDataPopupPage(_person, informationMessage));
         }
 
         protected override bool OnBackButtonPressed()
         {
-            Navigation.PushModalAsync(new SettingsPage());
+            Navigation.PushModalAsync(new NavigationPage(new SettingsPage()));
             return true;
+        }
+
+        private void RenewCycleTable(string result)
+        {
+            var decimalValue = decimal.Parse(result, new NumberFormatInfo() { NumberDecimalSeparator = "," });
+            _chartHandler.UpdateCycleEntryTable(DateTime.Now, decimalValue);
         }
     }
 }
