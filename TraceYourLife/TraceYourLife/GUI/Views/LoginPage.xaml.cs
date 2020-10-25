@@ -56,10 +56,10 @@ namespace TraceYourLife.GUI.Views
             Button buttonDone = GlobalGUISettings.CreateButton("Login!");
             buttonDone.Clicked += ButtonDone_Clicked;
 
-            editorName = GlobalGUISettings.CreateEntry(businessSettings.SetEditorNameText());
+            editorName = GlobalGUISettings.CreateEntry("Gib deinen Namen ein", businessSettings.SetEditorNameText());
             editorName.Completed += EditorName_Completed;
 
-            entryPassword = GlobalGUISettings.CreatePasswordField("");
+            entryPassword = GlobalGUISettings.CreatePasswordField("Gib ein Passwort ein", "");
             labelInformSuccessful = GlobalGUISettings.CreateLabel("", 10);
 
             var gridName = new Grid();

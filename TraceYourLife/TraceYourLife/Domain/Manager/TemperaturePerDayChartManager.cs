@@ -131,11 +131,11 @@ namespace TraceYourLife.Domain.Manager
                 Smooth = true,
                 DataFieldX = "Date",
                 DataFieldY = "BasalTemperature",
-                Color = OxyColors.CornflowerBlue,
+                Color = OxyColors.Yellow,
                 MarkerType = MarkerType.Star,
                 MarkerSize = 4,
-                MarkerStroke = OxyColors.CornflowerBlue,
-                MarkerFill = OxyColors.CornflowerBlue,
+                MarkerStroke = OxyColors.Yellow,
+                MarkerFill = OxyColors.Yellow,
                 MarkerStrokeThickness = 1.5
             };
             lsCycle.Points.AddRange(cyclePointList);

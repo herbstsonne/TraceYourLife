@@ -36,29 +36,38 @@ namespace TraceYourLife.GUI
                 HorizontalOptions = LayoutOptions.Start,
                 FontAttributes = FontAttributes.Italic,
                 TextColor = Color.Black,
-                FontSize = 10,
+                FontSize = 20,
                 FontFamily = GlobalGUISettings.UseFontFamilyFFFTusj()
             };
         }
 
-        public static Entry CreatePasswordField(string text)
+        public static Entry CreatePasswordField(string placeholder, string text)
         {
             return new Entry
             {
-                Placeholder = "password",
+                Placeholder = placeholder,
                 Text = text,
                 IsPassword = true,
                 FontSize = 10
             };
         }
 
-        public static Entry CreateEntry(string text)
+        public static Frame CreateFrame()
+        {
+            return new Frame()
+            {
+                BorderColor = Color.Black
+            };
+    }
+
+        public static Entry CreateEntry(string placeholder, string text)
         {
             return new Entry
             {
                 Text = text,
-                BackgroundColor = Color.FromHex("#64DAED"),
-                FontSize = 10,
+                //BackgroundColor = Color.FromHex("#64DAED"),
+                Placeholder = placeholder,
+                FontSize = 15,
                 WidthRequest = 25,
                 FontFamily = UseFontFamilyFFFTusj()
             };

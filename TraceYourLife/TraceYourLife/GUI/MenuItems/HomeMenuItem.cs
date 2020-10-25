@@ -4,7 +4,7 @@
     {
         Greetings,
         Login,
-        Settings,
+        UserData,
         Chart
     }
     public class HomeMenuItem

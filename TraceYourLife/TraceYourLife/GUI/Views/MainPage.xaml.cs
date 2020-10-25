@@ -32,7 +32,7 @@ namespace TraceYourLife.GUI.Views
                     case (int)MenuItemType.Greetings:
                         MenuPages.Add(id, new NavigationPage(new GreetPage()));
                         break;
-                    case (int)MenuItemType.Settings:
+                    case (int)MenuItemType.UserData:
                         MenuPages.Add(id, new NavigationPage(new SettingsPage()));
                         break;
                     case (int)MenuItemType.Chart:

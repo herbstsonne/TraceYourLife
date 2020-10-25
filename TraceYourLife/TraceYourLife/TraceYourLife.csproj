@@ -48,10 +48,4 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="GUI\Views\SuccessfulSavedPopupPage.xaml.cs">
-      <DependentUpon>SuccessfulSavedPopupPage.xaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
 </Project>

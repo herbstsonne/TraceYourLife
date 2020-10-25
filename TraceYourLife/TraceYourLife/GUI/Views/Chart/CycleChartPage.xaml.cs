@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Threading.Tasks;
 using OxyPlot.Xamarin.Forms;
+using Rg.Plugins.Popup.Extensions;
 using TraceYourLife.Domain.Entities.Interfaces;
 using TraceYourLife.Domain.Manager;
 using TraceYourLife.GUI.Views.Interfaces;
@@ -69,12 +70,14 @@ namespace TraceYourLife.GUI.Views.Chart
         private async void ButtonInsertNewData_Clicked(object sender, EventArgs e)
         {
             var informationMessage = "Neue Daten eingeben";
-            var currentDate = DateTime.Now.ToShortDateString();
+            /*var currentDate = DateTime.Now.ToShortDateString();
             string result = await DisplayPromptAsync(informationMessage, currentDate, 
                 initialValue: "36,00", keyboard: Keyboard.Numeric);
-            RenewCycleTable(result);
+            if(!String.IsNullOrEmpty(result))
+                RenewCycleTable(result);
+            await ReloadPage();*/
+            await Navigation.PushPopupAsync(new CycleChartDataPopupPage(_person, informationMessage));
             await ReloadPage();
-            //await Navigation.PushPopupAsync(new CycleChartDataPopupPage(_person, informationMessage));
         }
 
         protected override bool OnBackButtonPressed()

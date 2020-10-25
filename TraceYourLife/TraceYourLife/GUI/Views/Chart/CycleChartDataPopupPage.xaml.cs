@@ -54,7 +54,7 @@ namespace TraceYourLife.GUI.Views.Chart
             gridDate.Children.Add(GlobalGUISettings.CreateEditorLabel("Datum"), 0, 0);
             gridDate.Children.Add(editorDate, 1, 0);
 
-            pickerTemp = GlobalGUISettings.CreateEntry("");
+            pickerTemp = GlobalGUISettings.CreateEntry("Gib die Temperatur ein", "");
             var gridTemp = new Grid();
             gridTemp.Children.Add(GlobalGUISettings.CreateEditorLabel("Temperatur"), 0, 0);
             gridTemp.Children.Add(pickerTemp, 1, 0);
