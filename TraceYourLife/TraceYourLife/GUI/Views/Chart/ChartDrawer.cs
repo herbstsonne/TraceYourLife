@@ -51,9 +51,10 @@ namespace TraceYourLife.GUI.Views.Chart
         private void DefineAxes()
         {
             Axis xDate = new DateTimeAxis { Key = "DateAxis", Position = AxisPosition.Bottom, IntervalType = DateTimeIntervalType.Days, Minimum = DateTimeAxis.ToDouble(DateTime.Now.AddDays(-10)), Maximum = DateTimeAxis.ToDouble(DateTime.Now.AddDays(+18)), Selectable = false, Title = "Tag", StringFormat = "dd-MM-yy" };
-            Axis yTemp = new LinearAxis { Key = "BTempAxis", Position = AxisPosition.Left, Selectable = false, Title = "Basaltemperatur", Minimum = 35.0, Maximum = 40.0, MinimumMinorStep = 0.01, AbsoluteMaximum = 40.0 };
+            Axis yTemp = new LinearAxis { Key = "BTempAxis", Position = AxisPosition.Left, Selectable = false, Title = "Basaltemperatur", Minimum = 35.0, Maximum = 38.0, MinimumMinorStep = 0.01, AbsoluteMaximum = 40.0 };
+
             LineChart.Axes.Add(xDate);
-            //LineChart.Axes.Add(yTemp);
+            LineChart.Axes.Add(yTemp);
             lsCycle.XAxisKey = xDate.Key;
             //lsCycle.YAxisKey = yTemp.Key;
         }
