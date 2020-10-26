@@ -18,7 +18,8 @@ namespace TraceYourLife.GUI.Views
             InitializeComponent();
             var bgImage = new Image()
             {
-                Source = Device.RuntimePlatform == Device.Android ? ImageSource.FromFile("miri1.jpg") : ImageSource.FromFile("miri1.jpg")
+                Source = ImageSource.FromFile("miri1.jpg"),
+                Aspect = Aspect.Fill
             };
             var layout = new StackLayout { Padding = new Thickness(5, 10) };
             var absLayout = new AbsoluteLayout()

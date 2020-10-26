@@ -2,7 +2,7 @@
 using OxyPlot.Xamarin.Forms;
 using System.Collections.Generic;
 using TraceYourLife.Domain.Enums;
-using TraceYourLife.Domain.Manager.Interfaces;
+using TraceYourLife.GUI.Views.Chart;
 using Xamarin.Forms;
 
 namespace TraceYourLife.GUI
@@ -25,7 +25,7 @@ namespace TraceYourLife.GUI
                 FontAttributes = FontAttributes.Italic,
                 TextColor = Color.CornflowerBlue,
                 FontSize = fontSize,
-                FontFamily = GuiElementsFactory.UseFontFamilyFFFTusj()
+                FontFamily = UseFontFamilyFFFTusj()
             };
         }
 
@@ -106,7 +106,7 @@ namespace TraceYourLife.GUI
             };
         }
 
-        public static PlotView CreatePlotModelCycle(ICycleChartManager cycleHandler)
+        public static PlotView CreatePlotModelCycle(ChartDrawer cycleHandler)
         {
             PlotView view = new PlotView();
             view.SetBinding(PlotView.ModelProperty, new Binding("LineChart"));

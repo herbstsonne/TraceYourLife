@@ -15,7 +15,8 @@ namespace TraceYourLife.GUI.Views.Chart
     {
         private IPerson _person;
         private IPersonManager _personManager;
-        private ICycleChartManager _chartHandler;
+        private ChartDrawer _chartDrawer;
+        private TemperaturePerDayChartManager _temperaturePerDayChartManager;
 
         protected override async void OnAppearing()
         {
@@ -27,14 +28,15 @@ namespace TraceYourLife.GUI.Views.Chart
                 await Navigation.PushAsync(new NavigationPage(new PersonalDataPage()));
                 return;
             }
-            _chartHandler = new CycleChartManager(new TemperaturePerDayChartManager(_person));
+            _chartDrawer = new ChartDrawer();
+            _temperaturePerDayChartManager = new TemperaturePerDayChartManager(_person);
             SetPageParameters();
         }
 
         public async Task ReloadPage()
         {
             _person = _person ?? await _personManager.LoadFirstPerson();
-            _chartHandler.FillCyclePointList();
+            _chartDrawer.FillCyclePointList(_temperaturePerDayChartManager.RetrieveCycleOf);
             SetPageParameters();
         }
 
@@ -43,7 +45,8 @@ namespace TraceYourLife.GUI.Views.Chart
             InitializeComponent();
             var bgImage = new Image()
             {
-                Source = ImageSource.FromFile("himmel.jpg")
+                Source = "himmel.jpg",
+                Aspect = Aspect.Fill
             };
             var layout = new StackLayout { Padding = new Thickness(5, 10) };
             var absLayout = new AbsoluteLayout()
@@ -54,8 +57,8 @@ namespace TraceYourLife.GUI.Views.Chart
             };
             this.Content = absLayout;
 
-            _chartHandler.CreateLineChart("Zyklus");
-            PlotView view = GuiElementsFactory.CreatePlotModelCycle(_chartHandler);
+            _chartDrawer.CreateLineChart("Zyklus", _temperaturePerDayChartManager.RetrieveCycleOf);
+            PlotView view = GuiElementsFactory.CreatePlotModelCycle(_chartDrawer);
 
             Button buttonInsertNewData = GuiElementsFactory.CreateButton("Neue Daten eingeben!");
             buttonInsertNewData.Clicked += ButtonInsertNewData_Clicked;

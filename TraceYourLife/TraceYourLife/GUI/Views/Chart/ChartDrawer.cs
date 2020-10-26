@@ -4,39 +4,32 @@ using System.Linq;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
-using TraceYourLife.Domain.Manager.Interfaces;
-using TraceYourLife.GUI;
+using TraceYourLife.Domain.Entities;
 
-namespace TraceYourLife.Domain.Manager
+namespace TraceYourLife.GUI.Views.Chart
 {
-    public class CycleChartManager : ICycleChartManager
+    public class ChartDrawer
     {
-        private readonly ITemperaturePerDayChartManager _temperaturePerDayChartManager;
-
         private LineSeries lsCycle;
         private IEnumerable<DataPoint> cyclePointList;
         public PlotModel LineChart { get; set; }
 
-        public CycleChartManager(ITemperaturePerDayChartManager temperaturePerDayChartManager)
-        {
-            _temperaturePerDayChartManager = temperaturePerDayChartManager;
-        }
-
-        public void CreateLineChart(string title)
+        public void CreateLineChart(string title, Func<List<TemperaturePerDay>> cycleData)
         {
             DefineLineChart(title);
 
-            FillCyclePointList();
+            FillCyclePointList(cycleData);
             CreateLineSeriesCycle();
             DefineAxes();
 
             LineChart.Series.Add(lsCycle);
         }
 
-        public void FillCyclePointList()
+
+        public void FillCyclePointList(Func<List<TemperaturePerDay>> cycleData)
         {
-            var cycleData = _temperaturePerDayChartManager.RetrieveCycleOf();
-            cyclePointList = cycleData.Select(source => new DataPoint(DateTimeAxis.ToDouble(source.Date), Convert.ToDouble(source.BasalTemperature))).Cast<DataPoint>().ToList();
+            var cyclePoints = cycleData();
+            cyclePointList = cyclePoints.Select(source => new DataPoint(DateTimeAxis.ToDouble(source.Date), Convert.ToDouble(source.BasalTemperature))).Cast<DataPoint>().ToList();
         }
 
         private void DefineLineChart(string title)
@@ -57,8 +50,8 @@ namespace TraceYourLife.Domain.Manager
 
         private void DefineAxes()
         {
-            Axis xDate = new DateTimeAxis { Key = "DateAxis", Position = AxisPosition.Bottom, IntervalType = DateTimeIntervalType.Days, Minimum = DateTimeAxis.ToDouble(DateTime.Now.AddDays(-10)), Maximum = DateTimeAxis.ToDouble(DateTime.Now.AddDays(+3)), Selectable = false, Title = "Tag", StringFormat = "dd-MM-yy" };
-            Axis yTemp = new LinearAxis { Key = "BTempAxis", Position = AxisPosition.Left, Selectable = false, Title = "Basaltemperatur", MinimumMinorStep = 0.01, StartPosition = 35.0, AbsoluteMaximum = 40.0 };
+            Axis xDate = new DateTimeAxis { Key = "DateAxis", Position = AxisPosition.Bottom, IntervalType = DateTimeIntervalType.Days, Minimum = DateTimeAxis.ToDouble(DateTime.Now.AddDays(-10)), Maximum = DateTimeAxis.ToDouble(DateTime.Now.AddDays(+18)), Selectable = false, Title = "Tag", StringFormat = "dd-MM-yy" };
+            Axis yTemp = new LinearAxis { Key = "BTempAxis", Position = AxisPosition.Left, Selectable = false, Title = "Basaltemperatur", Minimum = 35.0, Maximum = 40.0, MinimumMinorStep = 0.01, AbsoluteMaximum = 40.0 };
             LineChart.Axes.Add(xDate);
             //LineChart.Axes.Add(yTemp);
             lsCycle.XAxisKey = xDate.Key;
