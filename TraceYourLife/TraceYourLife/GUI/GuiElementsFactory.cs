@@ -49,7 +49,7 @@ namespace TraceYourLife.GUI
                 Placeholder = placeholder,
                 Text = text,
                 IsPassword = true,
-                FontSize = 10
+                FontSize = 15
             };
         }
 
@@ -127,10 +127,11 @@ namespace TraceYourLife.GUI
                 BorderColor = Color.Black,
                 ImageSource = "icon.png",
                 BorderWidth = 2,
-                CornerRadius = 10, 
+                CornerRadius = 5, 
                 HeightRequest = 35,
+                WidthRequest = 100,
                 BackgroundColor = Color.White,
-                FontFamily = GuiElementsFactory.UseFontFamilyFFFTusj()
+                FontFamily = UseFontFamilyFFFTusj()
             };
         }
 
@@ -141,7 +142,7 @@ namespace TraceYourLife.GUI
                 Padding = new Thickness(5, 10),
                 VerticalOptions = LayoutOptions.Center,
                 HorizontalOptions = LayoutOptions.Center,
-                BackgroundColor = Color.FromHex("#64DAED"),
+                BackgroundColor = Color.Gold,
                 Opacity = 100
             };
 

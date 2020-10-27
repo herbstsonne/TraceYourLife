@@ -13,7 +13,6 @@ namespace TraceYourLife.GUI.Views.Chart
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CycleChartPage : ContentPage, IInitializePage
     {
-        private IPerson _person;
         private IPersonManager _personManager;
         private ChartDrawer _chartDrawer;
         private TemperaturePerDayChartManager _temperaturePerDayChartManager;
@@ -22,20 +21,13 @@ namespace TraceYourLife.GUI.Views.Chart
         {
             base.OnAppearing();
             _personManager = new PersonManager();
-            _person = await _personManager.LoadFirstPerson();
-            if (_person == null)
-            {
-                await Navigation.PushAsync(new NavigationPage(new PersonalDataPage()));
-                return;
-            }
             _chartDrawer = new ChartDrawer();
-            _temperaturePerDayChartManager = new TemperaturePerDayChartManager(_person);
+            _temperaturePerDayChartManager = new TemperaturePerDayChartManager();
             SetPageParameters();
         }
 
         public async Task ReloadPage()
         {
-            _person = _person ?? await _personManager.LoadFirstPerson();
             _chartDrawer.FillCyclePointList(_temperaturePerDayChartManager.RetrieveCycleOf);
             SetPageParameters();
         }
@@ -60,7 +52,7 @@ namespace TraceYourLife.GUI.Views.Chart
             _chartDrawer.CreateLineChart("Zyklus", _temperaturePerDayChartManager.RetrieveCycleOf);
             PlotView view = GuiElementsFactory.CreatePlotModelCycle(_chartDrawer);
 
-            Button buttonInsertNewData = GuiElementsFactory.CreateButton("Neue Daten eingeben!");
+            Button buttonInsertNewData = GuiElementsFactory.CreateButton("Wert eingeben");
             buttonInsertNewData.Clicked += ButtonInsertNewData_Clicked;
 
             layout.Children.Add(view);
@@ -71,7 +63,7 @@ namespace TraceYourLife.GUI.Views.Chart
         private async void ButtonInsertNewData_Clicked(object sender, EventArgs e)
         {
             var informationMessage = "Neue Daten eingeben";
-            await Navigation.PushModalAsync(new CycleChartDataPopupPage(_person, informationMessage));
+            await Navigation.PushModalAsync(new CycleChartDataPopupPage(informationMessage));
             await ReloadPage();
         }
 

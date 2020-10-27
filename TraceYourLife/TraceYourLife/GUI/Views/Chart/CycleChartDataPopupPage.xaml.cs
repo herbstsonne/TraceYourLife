@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using Rg.Plugins.Popup.Pages;
-using TraceYourLife.Domain;
-using TraceYourLife.Domain.Entities.Interfaces;
 using TraceYourLife.Domain.Manager;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -12,7 +10,6 @@ namespace TraceYourLife.GUI.Views.Chart
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CycleChartDataPopupPage : PopupPage
     {
-        private readonly IPerson _person;
         private readonly string _header;
         private TemperaturePerDayChartManager _temperaturePerDayChartManager;
         private Label labelHeader;
@@ -20,16 +17,15 @@ namespace TraceYourLife.GUI.Views.Chart
         private Entry pickerTemp;
         private StackLayout layout;
 
-        public CycleChartDataPopupPage(IPerson person, string header)
+        public CycleChartDataPopupPage(string header)
         {
-            _person = person;
             _header = header;
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            _temperaturePerDayChartManager = new TemperaturePerDayChartManager(_person);
+            _temperaturePerDayChartManager = new TemperaturePerDayChartManager();
             SetPageParameters(_header);
         }
 

@@ -1,123 +1,100 @@
 ﻿using System;
-using System.Threading.Tasks;
-using Rg.Plugins.Popup.Pages;
-using TraceYourLife.Domain;
+using TraceYourLife.Domain.Entities;
 using TraceYourLife.Domain.Entities.Interfaces;
 using TraceYourLife.Domain.Manager;
 using TraceYourLife.Domain.Manager.Interfaces;
-using TraceYourLife.GUI.Views.Chart;
-using TraceYourLife.GUI.Views.Interfaces;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace TraceYourLife.GUI.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class LoginPage : PopupPage, IInitializePage
+    public partial class LoginPage : ContentPage
     {
         private Entry editorName;
         private Entry entryPassword;
         private Label labelInformSuccessful;
         private IPerson person;
-        private PersonDataHandler businessSettings;
         private IPersonManager manager;
 
-        public LoginPage()
+        protected override void OnAppearing()
         {
-        }
-
-        protected override async Task OnAppearingAnimationBeginAsync()
-        {
-            await base.OnAppearingAnimationBeginAsync();
+            base.OnAppearing();
+            App.IsUserLoggedIn = false;
+            App.CurrentUser = null;
             manager = new PersonManager();
-            person = await manager.LoadFirstPerson();
-            if (person == null)
-                return;
-            businessSettings = new PersonDataHandler(person);
-            SetPageParameters();
-        }
-
-        public async Task ReloadPage()
-        {
-            person = await manager.LoadFirstPerson();
-            businessSettings = new PersonDataHandler(person);
             SetPageParameters();
         }
 
         private void SetPageParameters()
         {
             InitializeComponent();
-            BackgroundInputTransparent = true;
-            HasKeyboardOffset = false;
-            CloseWhenBackgroundIsClicked = true;
 
             var layout = GuiElementsFactory.InitializePopupLayout();
             this.Content = layout;
 
-            Button buttonDone = GuiElementsFactory.CreateButton("Login!");
+            Button buttonSignUp = GuiElementsFactory.CreateButton("Registrieren");
+            buttonSignUp.Clicked += ButtonSignUp_Clicked;
+
+            Button buttonDone = GuiElementsFactory.CreateButton("Login");
             buttonDone.Clicked += ButtonDone_Clicked;
 
-            editorName = GuiElementsFactory.CreateEntry("Gib deinen Namen ein", businessSettings.GetPersonName());
-            editorName.Completed += EditorName_Completed;
+            editorName = GuiElementsFactory.CreateEntry("Gib deinen Namen ein", null);
 
             entryPassword = GuiElementsFactory.CreatePasswordField("Gib ein Passwort ein", "");
-            labelInformSuccessful = GuiElementsFactory.CreateLabel("", 10);
+            labelInformSuccessful = GuiElementsFactory.CreateLabel("", 20);
 
-            var gridName = new Grid();
-            var gridPassword = new Grid();
-            gridName.Children.Add(GuiElementsFactory.CreateEditorLabel("Spitzname"), 0, 0);
-            gridName.Children.Add(editorName, 1, 0);
-            gridPassword.Children.Add(GuiElementsFactory.CreateEditorLabel("Passwort"), 0, 0);
-            gridPassword.Children.Add(entryPassword, 1, 0);
+            var gridButtons = new Grid();
+            gridButtons.Children.Add(buttonSignUp, 0, 0);
+            gridButtons.Children.Add(buttonDone, 2, 0);
 
-            layout.Children.Add(gridName);
-            layout.Children.Add(gridPassword);
-            layout.Children.Add(buttonDone);
+            layout.Children.Add(editorName);
+            layout.Children.Add(entryPassword);
+            layout.Children.Add(gridButtons);
             layout.Children.Add(labelInformSuccessful);
         }
 
-        private async void EditorName_Completed(object sender, EventArgs e)
+        private void ButtonSignUp_Clicked(object sender, EventArgs e)
         {
-            var editor = sender as Editor;
-            person = await manager.GetPerson(editor?.Text);
-        }
-
-        private void ButtonDone_Clicked(object sender, EventArgs e)
-        {
-            labelInformSuccessful.Text = "";
-            if (!EditorTextSet())
-                return;
-
-            if (person != null)
+            person = new Person
             {
-                if (!person.Password.Equals(entryPassword.Text))
-                {
-                    labelInformSuccessful.Text = "Name in der Datenbank schon vorhanden. \n Anlegen nicht zweimal möglich ;)";
-                }
-                else
-                {
-                    ShowCycleChart();
-                }
+                Name = editorName.Text,
+                Password = entryPassword.Text
+            };
+            var saved = manager.SavePerson(person);
+
+            labelInformSuccessful.Text = "";
+            if (saved)
+            {
+                PrepareMainPage("Registrierung erfolgreich");
             }
             else
             {
-                labelInformSuccessful.Text = "Ups...da ist was schiefgelaufen";
+                labelInformSuccessful.Text = "Registrierung nicht erfolgreich";
             }
         }
 
-        private void ShowCycleChart()
+        private async void ButtonDone_Clicked(object sender, EventArgs e)
         {
-            Navigation.PushModalAsync(new CycleChartPage());
-        }
+            labelInformSuccessful.Text = "";
 
-        private bool EditorTextSet()
-        {
-            if (String.IsNullOrEmpty(editorName.Text))
+            person = await manager.GetPerson(editorName.Text);
+            if (person != null && person.Password.Equals(entryPassword.Text))
             {
-                labelInformSuccessful.Text = "Bitte Name eingeben!";
-                return false;
+                PrepareMainPage("Anmeldung erfolgreich");
             }
-            return true;
+            else
+            {
+                labelInformSuccessful.Text = "Name nicht gefunden oder Passwort fehlerhaft";
+            }
+        }
+
+        private void PrepareMainPage(string message)
+        {
+            labelInformSuccessful.Text = message;
+            App.IsUserLoggedIn = true;
+            App.CurrentUser = person;
+            Application.Current.MainPage = new MainPage();
         }
     }
 }

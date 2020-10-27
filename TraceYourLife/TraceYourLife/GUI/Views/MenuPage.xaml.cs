@@ -5,8 +5,6 @@ using Xamarin.Forms;
 
 namespace TraceYourLife.GUI.Views
 {
-    // Learn more about making custom code visible in the Xamarin.Forms previewer
-    // by visiting https://aka.ms/xamarinforms-previewer
     [DesignTimeVisible(true)]
     public partial class MenuPage : ContentPage
     {
@@ -18,9 +16,10 @@ namespace TraceYourLife.GUI.Views
 
             menuItems = new List<HomeMenuItem>
             {
-                new HomeMenuItem {Id = MenuItemType.Start, Title="Hello" },
+                new HomeMenuItem {Id = MenuItemType.Start, Title="Trace your life" },
                 new HomeMenuItem {Id = MenuItemType.UserData, Title="Persönliche Daten" },
-                new HomeMenuItem {Id = MenuItemType.Chart, Title="Basaltemperatur verwalten" }
+                new HomeMenuItem {Id = MenuItemType.Chart, Title="Basaltemperatur verwalten" },
+                new HomeMenuItem {Id = MenuItemType.Logout, Title="Logout" }
             };
 
             ListViewMenu.ItemsSource = menuItems;

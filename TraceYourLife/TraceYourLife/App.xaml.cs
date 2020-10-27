@@ -1,25 +1,34 @@
 ﻿using System.Globalization;
 using TraceYourLife.Database;
 using Xamarin.Forms;
-using TraceYourLife.Domain.Services;
 using TraceYourLife.GUI.Views;
+using TraceYourLife.Domain.Entities.Interfaces;
 
 namespace TraceYourLife
 {
     public partial class App : Application
     {
+        public static bool IsUserLoggedIn { get; set; }
+        public static IPerson CurrentUser { get; set; }
+
         public App()
         {
             InitializeComponent();
 
             DependencyService.Register<MockDataStore>();
             CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("de-DE");
-            MainPage = new MainPage();
+            if (!IsUserLoggedIn)
+            {
+                MainPage = new LoginPage();
+            }
+            else
+            {
+                MainPage = new MainPage();
+            }
         }
 
         protected override void OnStart()
         {
-            MainPage = new MainPage();
         }
 
         protected override void OnSleep()

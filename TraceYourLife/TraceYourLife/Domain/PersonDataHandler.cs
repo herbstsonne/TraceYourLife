@@ -18,11 +18,15 @@ namespace TraceYourLife.Domain
 
         public string GetPersonAge()
         {
+            if (person?.Age == 0)
+                return null;
             return person?.Age.ToString();
         }
 
         public string GetPersonHeight()
         {
+            if (person?.Height == 0)
+                return null;
             return person?.Height.ToString();
         }
 
@@ -33,6 +37,8 @@ namespace TraceYourLife.Domain
 
         public string GetPersonStartweight()
         {
+            if (person?.StartWeight == 0)
+                return null;
             return person?.StartWeight.ToString();
         }
 

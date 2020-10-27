@@ -3,9 +3,9 @@
     public enum MenuItemType
     {
         Start,
-        Login,
         UserData,
-        Chart
+        Chart,
+        Logout
     }
     public class HomeMenuItem
     {

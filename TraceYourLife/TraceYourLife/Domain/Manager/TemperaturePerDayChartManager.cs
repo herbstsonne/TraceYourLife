@@ -2,26 +2,23 @@
 using System.Collections.Generic;
 using TraceYourLife.Database.Repositories;
 using TraceYourLife.Domain.Entities;
-using TraceYourLife.Domain.Entities.Interfaces;
 using TraceYourLife.Domain.Manager.Interfaces;
 
 namespace TraceYourLife.Domain.Manager
 {
     public class TemperaturePerDayChartManager : ITemperaturePerDayChartManager
     {
-        private readonly IPerson _person;
         private readonly TemperaturePerDayChartRepository _dbCycle;
 
 
-        public TemperaturePerDayChartManager(IPerson person)
+        public TemperaturePerDayChartManager()
         {
-            _person = person;
             _dbCycle = new TemperaturePerDayChartRepository();
         }
 
         public List<TemperaturePerDay> RetrieveCycleOf()
         {
-            return _dbCycle.Load28DaysCycle(_person);
+            return _dbCycle.Load28DaysCycle(App.CurrentUser);
         }
 
         public bool SaveNewCycleEntry(DateTime date, decimal bTemp)
@@ -30,7 +27,7 @@ namespace TraceYourLife.Domain.Manager
             {
                 Date = date.Date,
                 BasalTemperature = bTemp,
-                PersonId = _person.Id
+                PersonId = App.CurrentUser.Id
             };
 
             return _dbCycle.SaveNewData(cycleEntry);
@@ -39,14 +36,14 @@ namespace TraceYourLife.Domain.Manager
 
         public void UpdateCycleEntryTable(DateTime date, decimal bTemp)
         {
-            var entry = _dbCycle.GetEntry(date, _person.Id);
+            var entry = _dbCycle.GetEntry(date, App.CurrentUser.Id);
             if (entry == null)
             {
                 entry = new TemperaturePerDay()
                 {
                     Date = date.Date,
                     BasalTemperature = bTemp,
-                    PersonId = _person.Id
+                    PersonId = App.CurrentUser.Id
                 };
                 _dbCycle.SaveNewData(entry);
             }

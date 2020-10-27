@@ -38,6 +38,9 @@ namespace TraceYourLife.GUI.Views
                     case (int)MenuItemType.Chart:
                         MenuPages.Add(id, new NavigationPage(new CycleChartPage()));
                         break;
+                    case (int)MenuItemType.Logout:
+                        Application.Current.MainPage = new LoginPage();
+                        return;
                 }
             }
 
