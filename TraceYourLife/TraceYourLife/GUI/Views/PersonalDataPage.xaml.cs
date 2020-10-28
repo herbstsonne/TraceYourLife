@@ -120,7 +120,7 @@ namespace TraceYourLife.GUI.Views
             return true;
         }
 
-        public async Task ReloadPage()
+        public void ReloadPage()
         {
             SetPageParameters();
         }

@@ -7,6 +7,6 @@ namespace TraceYourLife.GUI.Views.Interfaces
 {
     interface IInitializePage
     {
-        Task ReloadPage();
+        void ReloadPage();
     }
 }

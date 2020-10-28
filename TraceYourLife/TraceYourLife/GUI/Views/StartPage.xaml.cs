@@ -16,11 +16,7 @@ namespace TraceYourLife.GUI.Views
         private void SetPageParameters()
         {
             InitializeComponent();
-            var bgImage = new Image()
-            {
-                Source = ImageSource.FromFile("miri1.jpg"),
-                Aspect = Aspect.Fill
-            };
+            var bgImage = GuiElementsFactory.CreateImage("miri1.jpg");
             var layout = new StackLayout { Padding = new Thickness(5, 10) };
             var absLayout = new AbsoluteLayout()
             {
@@ -45,9 +41,8 @@ namespace TraceYourLife.GUI.Views
             return true;
         }
 
-        public async Task ReloadPage()
+        public void ReloadPage()
         {
-            await Task.CompletedTask;
         }
     }
 }
