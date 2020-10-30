@@ -22,12 +22,12 @@ namespace TraceYourLife.GUI.Views.Chart
             };
         }
 
-        public static LineSeries CreateLineSeriesCycle(IEnumerable<DataPoint> cyclePointList, string title, OxyColor rgbColor, string dataFieldY)
+        public static LineSeries CreateLineSeries(IEnumerable<DataPoint> cyclePointList, string title, OxyColor rgbColor, string dataFieldY)
         {
             var lineSeries = new LineSeries
             {
                 Title = title,
-                StrokeThickness = 1,
+                StrokeThickness = 4,
                 Smooth = true,
                 DataFieldX = "Date",
                 DataFieldY = dataFieldY,

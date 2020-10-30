@@ -58,6 +58,7 @@ namespace TraceYourLife.GUI
                 Text = text,
                 IsPassword = true,
                 FontSize = 15,
+                FontFamily = GetFontFamily(),
                 Keyboard = Keyboard.Plain
             };
         }

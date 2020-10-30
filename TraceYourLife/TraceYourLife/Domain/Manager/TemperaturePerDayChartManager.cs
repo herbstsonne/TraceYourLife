@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TraceYourLife.Database.Repositories;
 using TraceYourLife.Domain.Entities;
 using TraceYourLife.Domain.Manager.Interfaces;
+using TraceYourLife.GUI.Views.Chart;
 
 namespace TraceYourLife.Domain.Manager
 {
@@ -10,15 +11,26 @@ namespace TraceYourLife.Domain.Manager
     {
         private readonly TemperaturePerDayChartRepository _dbCycle;
 
-
         public TemperaturePerDayChartManager()
         {
             _dbCycle = new TemperaturePerDayChartRepository();
         }
 
-        public List<TemperaturePerDay> RetrieveCycleOf()
+        public List<TemperaturePerDay> GetBasalTempData()
         {
             return _dbCycle.Load28DaysCycle(App.CurrentUser);
+        }
+
+        public CoverlineData? GetCoverlineData()
+        {
+            var coverlineCalculator = new CoverlineCalculator(_dbCycle.Load28DaysCycle(App.CurrentUser));
+
+            var ovulationEntry = coverlineCalculator.GetOvulationEntry();
+            var maxValue = coverlineCalculator.FindMaxTempBeforeOvulationDay(ovulationEntry);
+
+            if (ovulationEntry == null || maxValue == null)
+                return null;
+            return new CoverlineData { LineValue = maxValue, DayBeforeOvulation = ovulationEntry?.Date };
         }
 
         public bool SaveNewCycleEntry(DateTime date, decimal bTemp)

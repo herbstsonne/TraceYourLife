@@ -25,7 +25,8 @@ namespace TraceYourLife.GUI.Views.Chart
         {
             _chartDrawer = new ChartDrawer();
             _temperaturePerDayChartManager = new TemperaturePerDayChartManager();
-            _chartDrawer.FillCyclePointList(_temperaturePerDayChartManager.RetrieveCycleOf);
+            _chartDrawer.FillBasalTempPointList(_temperaturePerDayChartManager.GetBasalTempData);
+            _chartDrawer.FillOvulationLineList(_temperaturePerDayChartManager.GetCoverlineData);
             SetPageParameters();
         }
 
@@ -42,7 +43,7 @@ namespace TraceYourLife.GUI.Views.Chart
             };
             this.Content = absLayout;
 
-            _chartDrawer.CreateLineChart("Zyklus", _temperaturePerDayChartManager.RetrieveCycleOf);
+            _chartDrawer.CreateLineChart("Zyklus", _temperaturePerDayChartManager.GetBasalTempData, _temperaturePerDayChartManager.GetCoverlineData);
             PlotView view = GuiElementsFactory.CreatePlotModelCycle(_chartDrawer);
 
             var buttonInfo = GuiElementsFactory.CreateButton("Info");
@@ -50,10 +51,14 @@ namespace TraceYourLife.GUI.Views.Chart
             Button buttonInsertNewData = GuiElementsFactory.CreateButton("Wert eingeben");
             buttonInsertNewData.Clicked += ButtonInsertNewData_Clicked;
 
-            layout.Children.Add(buttonInfo);
+            var gridButtonInfo = new Grid();
+            gridButtonInfo.Children.Add(buttonInfo);
+
+            layout.Children.Add(gridButtonInfo);
             layout.Children.Add(view);
             layout.Children.Add(buttonInsertNewData);
             layout.Padding = new Thickness(5, 10);
+
         }
 
         private async void ButtonInfo_Clicked(object sender, EventArgs e)

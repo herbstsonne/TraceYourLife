@@ -1,6 +1,5 @@
 ﻿
 using Rg.Plugins.Popup.Pages;
-using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace TraceYourLife.GUI.Views.Chart
@@ -8,11 +7,6 @@ namespace TraceYourLife.GUI.Views.Chart
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class BasaltemperatureInfoPopupPage : PopupPage
     {
-        public BasaltemperatureInfoPopupPage()
-        {
-            
-        }
-
         protected override void OnAppearing()
         {
             base.OnAppearing();

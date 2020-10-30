@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using TraceYourLife.Domain.Entities;
+using TraceYourLife.GUI.Views.Chart;
 
 namespace TraceYourLife.Domain.Manager.Interfaces
 {
     public interface ITemperaturePerDayChartManager
     {
-        List<TemperaturePerDay> RetrieveCycleOf();
+        List<TemperaturePerDay> GetBasalTempData();
+        CoverlineData? GetCoverlineData();
         bool SaveNewCycleEntry(DateTime date, decimal bTemp);
         void UpdateCycleEntryTable(DateTime date, decimal bTemp);
     }

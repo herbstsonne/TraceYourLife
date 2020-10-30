@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using OxyPlot;
 using OxyPlot.Axes;
-using OxyPlot.Series;
 using TraceYourLife.Domain.Entities;
 
 namespace TraceYourLife.GUI.Views.Chart
@@ -12,18 +11,19 @@ namespace TraceYourLife.GUI.Views.Chart
     {
         public PlotModel LineChart { get; set; }
 
-        public void CreateLineChart(string title, Func<List<TemperaturePerDay>> cycleData)
+        public void CreateLineChart(string title, Func<List<TemperaturePerDay>> cycleData, Func<CoverlineData?> coverlineData)
         {
             LineChart = ChartFactory.CreatePlotModel(title);
 
-            var tempPointList = FillCyclePointList(cycleData);
-            var ovuTempList = FillBaselineList(37.0);
+            var tempPointList = FillBasalTempPointList(cycleData);
+            var ovuTempList = FillOvulationLineList(coverlineData);
             DefineAxes();
 
-            LineChart.Series.Add(ChartFactory.CreateLineSeriesCycle(tempPointList,
+
+            LineChart.Series.Add(ChartFactory.CreateLineSeries(tempPointList,
                 "Temperaturverlauf", OxyColor.FromRgb(245, 176, 65), "BasalTemperature"));
 
-            LineChart.Series.Add(ChartFactory.CreateLineSeriesCycle(ovuTempList,
+            LineChart.Series.Add(ChartFactory.CreateLineSeries(ovuTempList,
                 "Eisprungindikator", OxyColor.FromRgb(165, 105, 189), "Ovulationline"));
         }
 
@@ -36,19 +36,26 @@ namespace TraceYourLife.GUI.Views.Chart
             LineChart.Axes.Add(yTemp);
             //lsCycle.YAxisKey = yTemp.Key;
         }
-        
-        public IEnumerable<DataPoint> FillCyclePointList(Func<List<TemperaturePerDay>> cycleData)
+
+        public IEnumerable<DataPoint> FillBasalTempPointList(Func<List<TemperaturePerDay>> cycleData)
         {
             var cyclePoints = cycleData();
             return cyclePoints.Select(source => new DataPoint(DateTimeAxis.ToDouble(source.Date), Convert.ToDouble(source.BasalTemperature))).Cast<DataPoint>().ToList();
         }
 
-        private IEnumerable<DataPoint> FillBaselineList(double lineValue)
+        public IEnumerable<DataPoint> FillOvulationLineList(Func<CoverlineData?> coverlineData)
         {
+            var data = coverlineData();
+            if (data == null)
+                return new List<DataPoint>();
+            var lineData = (CoverlineData)data;
+            if (lineData.DayBeforeOvulation == null || lineData.LineValue == null)
+                return new List<DataPoint>();
+
             return new List<DataPoint>
             {
-                new DataPoint(DateTimeAxis.ToDouble(DateTime.Now.AddDays(-10)), lineValue),
-                new DataPoint(DateTimeAxis.ToDouble(DateTime.Now.AddDays(18)), lineValue),
+                new DataPoint(DateTimeAxis.ToDouble(lineData.DayBeforeOvulation?.AddDays(-10)), Convert.ToDouble(lineData.LineValue)),
+                new DataPoint(DateTimeAxis.ToDouble(lineData.DayBeforeOvulation?.AddDays(18)), Convert.ToDouble(lineData.LineValue)),
             };
         }
     }
