@@ -9,6 +9,7 @@ namespace TraceYourLife.Domain.Manager
 {
     public class TemperaturePerDayChartManager : ITemperaturePerDayChartManager
     {
+        public TemperaturePerDay OvulationEntry { get; private set; }
         private readonly TemperaturePerDayChartRepository _dbCycle;
 
         public TemperaturePerDayChartManager()
@@ -25,12 +26,12 @@ namespace TraceYourLife.Domain.Manager
         {
             var coverlineCalculator = new CoverlineCalculator(_dbCycle.Load28DaysCycle(App.CurrentUser));
 
-            var ovulationEntry = coverlineCalculator.GetOvulationEntry();
-            var maxValue = coverlineCalculator.FindMaxTempBeforeOvulationDay(ovulationEntry);
+            OvulationEntry = coverlineCalculator.GetOvulationEntry();
+            var maxValue = coverlineCalculator.FindMaxTempBeforeOvulationDay(OvulationEntry);
 
-            if (ovulationEntry == null || maxValue == null)
+            if (OvulationEntry == null || maxValue == null)
                 return null;
-            return new CoverlineData { LineValue = maxValue, DayBeforeOvulation = ovulationEntry?.Date };
+            return new CoverlineData { LineValue = (decimal)maxValue, DayBeforeOvulation = OvulationEntry.Date };
         }
 
         public bool SaveNewCycleEntry(DateTime date, decimal bTemp)

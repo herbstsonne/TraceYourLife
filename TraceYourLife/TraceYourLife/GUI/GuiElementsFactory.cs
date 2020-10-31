@@ -123,6 +123,21 @@ namespace TraceYourLife.GUI
             return view;
         }
 
+        public static Button CreateButtonInfo(string text)
+        {
+            return new Button
+            {
+                Text = text,
+                BorderColor = Color.Black,
+                BackgroundColor = Color.White,
+                WidthRequest = 35,
+                HeightRequest = 35,
+                CornerRadius = 5,
+                BorderWidth = 2,
+                FontFamily = GetFontFamily()
+            };
+        }
+
         public static Button CreateButton(string text)
         {
             return new Button

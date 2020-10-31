@@ -55,7 +55,7 @@ namespace TraceYourLife.GUI.Views.Chart
             foreach (var successor in successorList)
             {
                 var diff = successor.BasalTemperature - possibleOvulationEntry.BasalTemperature;
-                if (diff > 0.2m)
+                if (diff >= 0.2m)
                 {
                     numberOfSuccessors++;
                     if (numberOfSuccessors == 3)

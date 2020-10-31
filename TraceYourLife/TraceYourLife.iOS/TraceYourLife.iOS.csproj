@@ -73,6 +73,9 @@
     <BundleResource Include="Resources\Lobster-Regular.ttf" />
     <BundleResource Include="Resources\TYL.db" />
     <BundleResource Include="Resources\FFF_Tusj.ttf" />
+    <BundleResource Include="Resources\bluepastell.jpg" />
+    <BundleResource Include="Resources\greenpastell.jpg" />
+    <BundleResource Include="Resources\buntpastellig.jpg" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">

@@ -16,7 +16,7 @@ namespace TraceYourLife.GUI.Views
         private void SetPageParameters()
         {
             InitializeComponent();
-            var bgImage = GuiElementsFactory.CreateImage("miri1.jpg");
+            var bgImage = GuiElementsFactory.CreateImage("buntpastellig.jpg");
             var layout = new StackLayout { Padding = new Thickness(5, 10) };
             var absLayout = new AbsoluteLayout()
             {

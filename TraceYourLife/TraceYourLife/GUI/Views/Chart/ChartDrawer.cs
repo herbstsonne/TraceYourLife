@@ -24,7 +24,7 @@ namespace TraceYourLife.GUI.Views.Chart
                 "Temperaturverlauf", OxyColor.FromRgb(245, 176, 65), "BasalTemperature"));
 
             LineChart.Series.Add(ChartFactory.CreateLineSeries(ovuTempList,
-                "Eisprungindikator", OxyColor.FromRgb(165, 105, 189), "Ovulationline"));
+                "Coverline", OxyColor.FromRgb(165, 105, 189), "Ovulationline"));
         }
 
         private void DefineAxes()
@@ -49,13 +49,11 @@ namespace TraceYourLife.GUI.Views.Chart
             if (data == null)
                 return new List<DataPoint>();
             var lineData = (CoverlineData)data;
-            if (lineData.DayBeforeOvulation == null || lineData.LineValue == null)
-                return new List<DataPoint>();
 
             return new List<DataPoint>
             {
-                new DataPoint(DateTimeAxis.ToDouble(lineData.DayBeforeOvulation?.AddDays(-10)), Convert.ToDouble(lineData.LineValue)),
-                new DataPoint(DateTimeAxis.ToDouble(lineData.DayBeforeOvulation?.AddDays(18)), Convert.ToDouble(lineData.LineValue)),
+                new DataPoint(DateTimeAxis.ToDouble(lineData.DayBeforeOvulation.AddDays(-10)), Convert.ToDouble(lineData.LineValue)),
+                new DataPoint(DateTimeAxis.ToDouble(lineData.DayBeforeOvulation.AddDays(18)), Convert.ToDouble(lineData.LineValue)),
             };
         }
     }
