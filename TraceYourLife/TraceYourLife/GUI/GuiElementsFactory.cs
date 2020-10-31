@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TraceYourLife.Domain.Enums;
 using TraceYourLife.GUI.Views.Chart;
 using Xamarin.Forms;
+using TraceYourLife.Domain.Entities;
 
 namespace TraceYourLife.GUI
 {
@@ -100,14 +101,26 @@ namespace TraceYourLife.GUI
             };
         }
 
-        public static DatePicker CreateDatePicker()
+        public static DatePicker CreateBasalTempDatePicker(CycleData currentCycle)
         {
+            var date = (DateTime)(currentCycle.LastEnteredDay?.AddDays(1) ?? currentCycle.FirstDayOfPeriod);
             return new DatePicker
             {
                 FontFamily = GetFontFamily(),
                 Format = "dd-MM-yy",
                 BackgroundColor = Color.FromHex("#5DADE2"),
-                Date = DateTime.Now
+                Date = date
+            };
+        }
+
+        public static NullableDatepicker CreatePeriodDatePicker(DateTime? firstDayOfPeriod)
+        {
+            return new NullableDatepicker
+            {
+                FontFamily = GetFontFamily(),
+                Format = "dd-MM-yy",
+                BackgroundColor = Color.FromHex("#5DADE2"),
+                NullableDate = firstDayOfPeriod
             };
         }
 

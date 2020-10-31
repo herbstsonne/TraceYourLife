@@ -37,7 +37,7 @@ namespace TraceYourLife.GUI.Views.Chart
                 return null;
 
             decimal? maxValue = _basalTempDataPoints[0].BasalTemperature;
-            for (int i = indexOfOvulationEntry - 6; i < indexOfOvulationEntry; ++i)
+            for (int i = indexOfOvulationEntry - 5; i < indexOfOvulationEntry; ++i)
             {
                 var entry = _basalTempDataPoints[i];
                 if (entry.BasalTemperature > maxValue)

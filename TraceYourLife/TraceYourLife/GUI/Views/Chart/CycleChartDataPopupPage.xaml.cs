@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using Rg.Plugins.Popup.Pages;
+using TraceYourLife.Domain.Entities;
 using TraceYourLife.Domain.Manager;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -11,9 +12,11 @@ namespace TraceYourLife.GUI.Views.Chart
     public partial class CycleChartDataPopupPage : PopupPage
     {
         private readonly string _header;
+        private CycleData _cycleData;
         private TemperaturePerDayChartManager _temperaturePerDayChartManager;
+        private CycleDataManager _cycleDataManager;
         private Label labelHeader;
-        private DatePicker editorDate;
+        private DatePicker datePicker;
         private Entry pickerTemp;
         private StackLayout layout;
 
@@ -25,7 +28,9 @@ namespace TraceYourLife.GUI.Views.Chart
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            _temperaturePerDayChartManager = new TemperaturePerDayChartManager();
+            _cycleDataManager = new CycleDataManager();
+            _cycleData = _cycleDataManager.GetCurrentCycle();
+            _temperaturePerDayChartManager = new TemperaturePerDayChartManager(_cycleData);
             SetPageParameters(_header);
         }
 
@@ -42,10 +47,10 @@ namespace TraceYourLife.GUI.Views.Chart
             labelHeader = GuiElementsFactory.CreateLabel(header, 30);
             layout.Children.Add(labelHeader);
 
-            editorDate = GuiElementsFactory.CreateDatePicker();
+            datePicker = GuiElementsFactory.CreateBasalTempDatePicker(_cycleData);
             var gridDate = new Grid();
             gridDate.Children.Add(GuiElementsFactory.CreateEditorLabel("Datum"), 0, 0);
-            gridDate.Children.Add(editorDate, 1, 0);
+            gridDate.Children.Add(datePicker, 1, 0);
 
             pickerTemp = GuiElementsFactory.CreateEntry("Gib die Temperatur ein", "");
             var gridTemp = new Grid();
@@ -62,8 +67,13 @@ namespace TraceYourLife.GUI.Views.Chart
 
         private void ButtonDone_Clicked(object sender, EventArgs e)
         {
-            var decimalValue = decimal.Parse(pickerTemp.Text, new NumberFormatInfo() { NumberDecimalSeparator = "," });
-            _temperaturePerDayChartManager.UpdateCycleEntryTable(editorDate.Date, decimalValue);
+            if (!String.IsNullOrEmpty(pickerTemp.Text))
+            {
+                var decimalValue = decimal.Parse(pickerTemp.Text, new NumberFormatInfo() { NumberDecimalSeparator = "," });
+                _temperaturePerDayChartManager.UpdateCycleEntryTable(datePicker.Date, decimalValue);
+                _cycleData.LastEnteredDay = datePicker.Date;
+                _cycleDataManager.UpdateCurrentCyle(_cycleData);
+            }
             Navigation.PopModalAsync();
         }
 

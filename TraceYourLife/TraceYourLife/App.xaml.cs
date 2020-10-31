@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using TraceYourLife.Database;
 using Xamarin.Forms;
 using TraceYourLife.GUI.Views;
 using TraceYourLife.Domain.Entities.Interfaces;
@@ -15,7 +14,6 @@ namespace TraceYourLife
         {
             InitializeComponent();
 
-            DependencyService.Register<MockDataStore>();
             CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("de-DE");
             if (!IsUserLoggedIn)
             {
