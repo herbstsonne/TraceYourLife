@@ -13,6 +13,17 @@ namespace TraceYourLife.GUI.Views.Chart
             set { SetValue(NullableDateProperty, value); UpdateDate(); }
         }
 
+        public NullableDatepicker()
+        {
+            Unfocused += NullableDatepicker_Unfocused;
+        }
+
+        private void NullableDatepicker_Unfocused(object sender, FocusEventArgs e)
+        {
+            NullableDate = Date;
+            UpdateDate();
+        }
+
         private void UpdateDate()
         {
             if (NullableDate.HasValue)
@@ -33,7 +44,7 @@ namespace TraceYourLife.GUI.Views.Chart
         protected override void OnPropertyChanged(string propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
-            if (propertyName == "Date") NullableDate = Date;
+            //if (propertyName == "Date") NullableDate = Date;
         }
     }
 }

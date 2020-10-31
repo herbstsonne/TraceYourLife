@@ -17,6 +17,7 @@ namespace TraceYourLife.GUI.Views.Chart
         private CycleData _cycleData;
         Label labelOvulationInfo;
         Button buttonInsertNewData;
+        NullableDatepicker pickerFirstDayOfPeriod;
 
         protected override void OnAppearing()
         {
@@ -53,8 +54,8 @@ namespace TraceYourLife.GUI.Views.Chart
 
             labelOvulationInfo = GuiElementsFactory.CreateLabel(GetLabelOvulationText(), 15);
             var labelPeriod = GuiElementsFactory.CreateLabel("Gib den ersten Tag deiner Periode ein", 15);
-            var pickerFirstDayOfPeriod = GuiElementsFactory.CreatePeriodDatePicker(_cycleData.FirstDayOfPeriod);
-            pickerFirstDayOfPeriod.DateSelected += PickerFirstDayOfPeriod_DateSelected;
+            pickerFirstDayOfPeriod = GuiElementsFactory.CreatePeriodDatePicker(_cycleData.FirstDayOfPeriod);
+            pickerFirstDayOfPeriod.Unfocused += PickerFirstDayOfPeriod_Unfocused;
             var buttonInfo = GuiElementsFactory.CreateButtonInfo("i");
             buttonInfo.Clicked += ButtonInfo_Clicked;
             buttonInsertNewData = GuiElementsFactory.CreateButton("Temperatur eingeben");
@@ -75,9 +76,9 @@ namespace TraceYourLife.GUI.Views.Chart
             layout.Padding = new Thickness(5, 10);
         }
 
-        private void PickerFirstDayOfPeriod_DateSelected(object sender, DateChangedEventArgs e)
+        private void PickerFirstDayOfPeriod_Unfocused(object sender, FocusEventArgs e)
         {
-            _cycleData.FirstDayOfPeriod = e.NewDate;
+            _cycleData.FirstDayOfPeriod = pickerFirstDayOfPeriod.Date;
             _cycleDataManager.UpdateCurrentCyle(_cycleData);
             SetPageParameters();
         }
