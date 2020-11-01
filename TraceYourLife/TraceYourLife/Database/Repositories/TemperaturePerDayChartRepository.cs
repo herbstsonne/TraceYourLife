@@ -8,11 +8,11 @@ namespace TraceYourLife.Database.Repositories
 {
     public class TemperaturePerDayChartRepository
     {
-        public List<TemperaturePerDay> Load28DaysCycle(IPerson person)
+        public List<TemperaturePerDay> Load28DaysCycle(IPerson person, int cycleId)
         {
             using (var lifeContext = new TraceYourLifeContext())
             {
-                return lifeContext.TemperaturePerDay.Where(c => c.PersonId == person.Id).OrderByDescending(d => d.Date.Date).Take(28).ToList();
+                return lifeContext.TemperaturePerDay.Where(c => c.PersonId == person.Id && c.CycleId == cycleId).OrderByDescending(d => d.Date.Date).Take(50).ToList();
             }
         }
 

@@ -9,6 +9,7 @@ namespace TraceYourLife.Database
     {
         public DbSet<Food> Food { get; set; }
         public DbSet<Person> Persons { get; set; }
+        public DbSet<CycleData> CycleData { get; set; }
         public DbSet<TemperaturePerDay> TemperaturePerDay { get; set; }
         public DbSet<WeightPerDay> WeightPerDay { get; set; }
 

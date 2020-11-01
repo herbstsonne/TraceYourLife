@@ -1,5 +1,4 @@
 ﻿using System;
-using SQLite;
 
 namespace TraceYourLife.Domain.Entities
 {
@@ -12,5 +11,7 @@ namespace TraceYourLife.Domain.Entities
         public decimal BasalTemperature { get; set; }
 
         public int PersonId { get; set; }
+
+        public int CycleId { get; set; }
     }
 }

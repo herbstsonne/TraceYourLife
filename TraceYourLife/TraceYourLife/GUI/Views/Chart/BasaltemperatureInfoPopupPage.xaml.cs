@@ -27,13 +27,16 @@ namespace TraceYourLife.GUI.Views.Chart
             layout.Children.Add(labelHeader);
 
             var textfield = GuiElementsFactory.CreateEditor(
-                "Die Aufwachtemperatur entspricht in der ersten Zyklushälfte, " +
+                "Die Basaltemperatur wird morgens vor dem Aufstehen gemessen " +
+                "und entspricht in der ersten Zyklushälfte, " +
                 "also vom Beginn der Monatsblutung bis zum Eisprung, " +
                 "der normalen Körpertemperatur von etwa 36,5 Grad Celsius. " +
                 "Nach dem Eisprung steigt sie um mindestens zwei Zehntel Grad Celsius an " +
-                "und bleibt bis zur nächsten Monatsblutung so hoch. Gemessen wird morgens direkt nach dem Aufwachen, " +
-                "noch vor dem Aufstehen. Vor dem Messen sollte die Frau zumindest eine, " +
-                "besser einige Stunden geschlafen haben.");
+                "und bleibt bis zur nächsten Monatsblutung so hoch." +
+                "" +
+                "Damit die Coverline, also eine Linie auf Höhe des höchsten Wertes der ersten sechs Messwerte, " +
+                "angezeigt wird muss das Programm einen Eisprung ermittelt haben " +
+                "und es müssen mindestens sechs Werte eingegeben worden sein." );
 
             var buttonClose = GuiElementsFactory.CreateButton("Schließen");
             buttonClose.Clicked += ButtonClose_Clicked;
