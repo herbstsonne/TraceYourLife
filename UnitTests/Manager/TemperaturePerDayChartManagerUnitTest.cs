@@ -21,7 +21,7 @@ namespace UnitTests.Manager
         }
 
         [Fact]
-        public void Test1()
+        public void CalculationOfCoverlineTest()
         {
             var mockRepo = new Mock<TemperaturePerDayChartRepository>();
             mockRepo.Setup(r => r.Load28DaysCycle(It.IsAny<IPerson>(), It.IsAny<int>()))

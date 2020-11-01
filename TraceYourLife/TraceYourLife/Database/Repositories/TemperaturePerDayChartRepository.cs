@@ -8,7 +8,7 @@ namespace TraceYourLife.Database.Repositories
 {
     public class TemperaturePerDayChartRepository
     {
-        public List<TemperaturePerDay> Load28DaysCycle(IPerson person, int cycleId)
+        public virtual List<TemperaturePerDay> Load28DaysCycle(IPerson person, int cycleId)
         {
             using (var lifeContext = new TraceYourLifeContext())
             {
