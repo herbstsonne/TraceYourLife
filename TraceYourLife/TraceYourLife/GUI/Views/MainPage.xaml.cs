@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using TraceYourLife.GUI.MenuItems;
@@ -21,6 +22,21 @@ namespace TraceYourLife.GUI.Views
             MasterBehavior = MasterBehavior.Popover;
 
             MenuPages.Add((int)MenuItemType.Start, (NavigationPage)Detail);
+            IsPresentedChanged += MainPage_IsPresentedChanged;
+        }
+
+        private void MainPage_IsPresentedChanged(object sender, EventArgs e)
+        {
+            //bug fix: workaround to reset PlotView before opening CycleChartPage again, how can I improve this?
+            if (MenuPages.ContainsKey(2))
+            {
+                var layout = ((CycleChartPage)MenuPages[2].CurrentPage).Layout;
+                if (layout?.Children != null && GuiElementsFactory.PlotView != null && layout.Children.Contains(GuiElementsFactory.PlotView))
+                {
+                    layout.Children.Remove(GuiElementsFactory.PlotView);
+                }
+            }
+            GuiElementsFactory.PlotView = null;
         }
 
         public async Task NavigateFromMenu(int id)

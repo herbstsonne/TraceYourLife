@@ -10,6 +10,7 @@ namespace TraceYourLife.GUI
 {
     public static class GuiElementsFactory
     {
+        public static PlotView PlotView { get; set; }
         public static string GetFontFamily()
         {
             return Device.RuntimePlatform == Device.iOS ? "MarkerFelt-Thin" : "FFF_Tusj.ttf#FFF_Tusj";
@@ -126,14 +127,16 @@ namespace TraceYourLife.GUI
 
         public static PlotView CreatePlotModelCycle(ChartDrawer cycleHandler)
         {
-            PlotView view = new PlotView();
-            view.SetBinding(PlotView.ModelProperty, new Binding("LineChart"));
-            view.BindingContext = cycleHandler;
-            view.WidthRequest = 400;
-            view.HeightRequest = 300;
-            view.VerticalOptions = LayoutOptions.FillAndExpand;
-            view.HorizontalOptions = LayoutOptions.FillAndExpand;
-            return view;
+            if (PlotView != null)
+                return PlotView;
+            PlotView = new PlotView();
+            PlotView.SetBinding(PlotView.ModelProperty, new Binding("LineChart"));
+            PlotView.BindingContext = cycleHandler;
+            PlotView.WidthRequest = 400;
+            PlotView.HeightRequest = 300;
+            PlotView.VerticalOptions = LayoutOptions.FillAndExpand;
+            PlotView.HorizontalOptions = LayoutOptions.FillAndExpand;
+            return PlotView;
         }
 
         public static Button CreateButtonInfo(string text)

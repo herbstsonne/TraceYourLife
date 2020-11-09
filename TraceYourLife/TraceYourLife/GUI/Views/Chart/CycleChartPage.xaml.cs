@@ -1,5 +1,4 @@
 ﻿using System;
-using OxyPlot.Xamarin.Forms;
 using TraceYourLife.Domain.Entities;
 using TraceYourLife.Domain.Manager;
 using TraceYourLife.GUI.Views.Interfaces;
@@ -11,6 +10,7 @@ namespace TraceYourLife.GUI.Views.Chart
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CycleChartPage : ContentPage, IInitializePage
     {
+        public StackLayout Layout { get; set; }
         private ChartDrawer _chartDrawer;
         private TemperaturePerDayChartManager _temperaturePerDayChartManager;
         private CycleDataManager _cycleDataManager;
@@ -19,38 +19,40 @@ namespace TraceYourLife.GUI.Views.Chart
         Button buttonInsertNewData;
         NullableDatepicker pickerFirstDayOfPeriod;
 
+        public CycleChartPage()
+        {
+            _chartDrawer = new ChartDrawer();
+            _cycleDataManager = new CycleDataManager();
+            _cycleData = _cycleDataManager.GetCurrentCycle() ?? _cycleDataManager.CreateCycle(new CycleData { PersonId = App.CurrentUser.Id });
+            _temperaturePerDayChartManager = new TemperaturePerDayChartManager(_cycleData);
+        }
+
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            _chartDrawer = new ChartDrawer();
-            _cycleDataManager = new CycleDataManager();
-            _cycleData = _cycleDataManager.GetCurrentCycle() ?? _cycleDataManager.CreateCycle(new CycleData { PersonId = App.CurrentUser.Id});
-            _temperaturePerDayChartManager = new TemperaturePerDayChartManager(_cycleData);
             SetPageParameters();
+            _chartDrawer.CreateLineChart("Zyklus", _temperaturePerDayChartManager.GetBasalTempData, _temperaturePerDayChartManager.GetCoverlineData);
         }
 
         public void ReloadPage()
         {
-            //_chartDrawer = new ChartDrawer();
-            //_temperaturePerDayChartManager = new TemperaturePerDayChartManager();
-            //SetPageParameters();
         }
 
         private void SetPageParameters()
         {
             InitializeComponent();
             var bgImage = GuiElementsFactory.CreateImage("greenpastell.jpg");
-            var layout = new StackLayout { Padding = new Thickness(5, 10) };
+            Layout = new StackLayout { Padding = new Thickness(5, 10) };
             var absLayout = new AbsoluteLayout()
             {
                 Children = { { bgImage, new Rectangle(0, 0, 1, 1), AbsoluteLayoutFlags.SizeProportional },
-                    { layout, new Rectangle(0, 0, 1, 1), AbsoluteLayoutFlags.SizeProportional }
+                    { Layout, new Rectangle(0, 0, 1, 1), AbsoluteLayoutFlags.SizeProportional }
                 }
             };
             this.Content = absLayout;
 
             _chartDrawer.CreateLineChart("Zyklus", _temperaturePerDayChartManager.GetBasalTempData, _temperaturePerDayChartManager.GetCoverlineData);
-            PlotView view = GuiElementsFactory.CreatePlotModelCycle(_chartDrawer);
+            var _plotView = GuiElementsFactory.CreatePlotModelCycle(_chartDrawer);
 
             labelOvulationInfo = GuiElementsFactory.CreateLabel(GetLabelOvulationText(), 15);
             var labelPeriod = GuiElementsFactory.CreateLabel("Gib den ersten Tag deiner Periode ein", 15);
@@ -68,12 +70,12 @@ namespace TraceYourLife.GUI.Views.Chart
             var gridButtonInfo = new Grid();
             gridButtonInfo.Children.Add(buttonInfo, 2, 0);
 
-            layout.Children.Add(labelOvulationInfo);
-            layout.Children.Add(gridBPeriod);
-            layout.Children.Add(gridButtonInfo);
-            layout.Children.Add(view);
-            layout.Children.Add(buttonInsertNewData);
-            layout.Padding = new Thickness(5, 10);
+            Layout.Children.Add(labelOvulationInfo);
+            Layout.Children.Add(gridBPeriod);
+            Layout.Children.Add(gridButtonInfo);
+            Layout.Children.Add(_plotView);
+            Layout.Children.Add(buttonInsertNewData);
+            Layout.Padding = new Thickness(5, 10);
         }
 
         private void PickerFirstDayOfPeriod_Unfocused(object sender, FocusEventArgs e)
@@ -108,7 +110,6 @@ namespace TraceYourLife.GUI.Views.Chart
 
         protected override bool OnBackButtonPressed()
         {
-            Navigation.PushModalAsync(new NavigationPage(new PersonalDataPage()));
             return true;
         }
     }
